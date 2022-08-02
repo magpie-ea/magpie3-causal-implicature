@@ -4,7 +4,7 @@
       In this short experiment you will first read a description about a
       fictitious context in which you are supposed to make an decision based on
       some information you received from others. Please read the context
-      information very carefully and choose deliberately.
+      information very carefully and make your decision deliberately.
       <p></p>
       After your choice, we will ask you to explain your choice in a few words.
     </InstructionScreen>

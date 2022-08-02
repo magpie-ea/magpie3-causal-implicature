@@ -1,0 +1,58 @@
+---
+title: "Causal Implicature - Pilot data analysis"
+author: "MF"
+format: html
+editor: visual
+---
+
+```{r, echo = F, error=F, warning=F, message=F}
+library(tidyverse)
+library(tidyboot)
+library(aida)
+library(brms)
+library(faintr)
+
+##################################################
+
+# these options help Stan run faster
+options(mc.cores = parallel::detectCores())
+
+# use the aida-theme for plotting
+theme_set(theme_aida())
+
+# global color scheme / non-optimized
+project_colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000")
+
+# setting theme colors globally
+scale_colour_discrete <- function(...) {
+  scale_colour_manual(..., values = project_colors)
+}
+scale_fill_discrete <- function(...) {
+  scale_fill_manual(..., values = project_colors)
+} 
+
+##################################################
+
+d <- read_csv('01-wrangled-data.csv')
+```
+
+## Study details
+
+N=200 participants recruited via Prolific (English Native, at least 10 previous studies, at least 90% approval rate), but only N=195 data sets received (due to technical issues).
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).

@@ -66,6 +66,7 @@
     <PostTestScreen />
 
     <SubmitResultsScreen />
+
   </Experiment>
 </template>
 
@@ -76,7 +77,7 @@ import _ from 'lodash';
 export default {
   name: 'App',
   data() {
-    return { items: _.reverse(items).slice(0, 1) };
+    return { items: _.shuffle(items).slice(0, 1) };
   },
   computed: {
     // Expose lodash to template code

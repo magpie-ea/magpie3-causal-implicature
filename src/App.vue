@@ -1,5 +1,5 @@
 <template>
-  <Experiment title="magpie demo">
+  <Experiment title="Decision-making experiment">
     <InstructionScreen :title="'Welcome'">
       In this short experiment you will first read a description about a
       fictitious context in which you are supposed to make an decision based on
@@ -39,14 +39,13 @@
             Please give a short explanation for why you chose to cultivate
             {{ getPreviousResponse() }}!
           </p>
-          <p style="color: grey">
-            (You need to enter at least 20 characters of text to proceed.)
-          </p>
+          <!-- <p style="color: grey"> -->
+          <!--   (You need to enter at least 20 characters of text to proceed.) -->
+          <!-- </p> -->
           <TextareaInput :response.sync="$magpie.measurements.justification" />
           <button
             v-if="
-              $magpie.measurements.justification &&
-              $magpie.measurements.justification.length > 20
+              $magpie.measurements.justification
             "
             @click="$magpie.saveAndNextScreen()"
           >
@@ -54,14 +53,18 @@
           </button>
           <Record
             :data="{
-              itemNr: trial.itemNr,
-              itemName: trial.itemName,
-              condition: trial.condition
+                   trialNR: i+1,
+                   itemNr: trial.itemNr,
+                   itemName: trial.itemName,
+                   condition: trial.condition
             }"
           />
         </Slide>
       </Screen>
     </template>
+
+    <PostTestScreen />
+
     <SubmitResultsScreen />
   </Experiment>
 </template>

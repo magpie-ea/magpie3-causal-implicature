@@ -1,11 +1,18 @@
 ---
 title: "Causal Implicature - Pilot data analysis"
 author: "MF"
-format: html
+format: 
+  html:
+    code-fold: true
 editor: visual
 ---
 
-```{r, echo = F, error=F, warning=F, message=F}
+```{r}
+#| echo: true
+#| error: false
+#| warning: false
+#| message: false
+
 library(tidyverse)
 library(tidyboot)
 library(aida)
@@ -21,7 +28,9 @@ options(mc.cores = parallel::detectCores())
 theme_set(theme_aida())
 
 # global color scheme / non-optimized
-project_colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000")
+project_colors = c("#E69F00", "#56B4E9", "#009E73", 
+                   "#F0E442", "#0072B2", "#D55E00", 
+                   "#CC79A7", "#000000")
 
 # setting theme colors globally
 scale_colour_discrete <- function(...) {
@@ -38,21 +47,158 @@ d <- read_csv('01-wrangled-data.csv')
 
 ## Study details
 
-N=200 participants recruited via Prolific (English Native, at least 10 previous studies, at least 90% approval rate), but only N=195 data sets received (due to technical issues).
+N=200 participants recruited via Prolific (English Native, at least 10 previous studies, at least 90% approval rate), but only N=`r d$submission_id %>% unique() %>% length()` data sets were received (due to technical issues). Participants took about `r round((d$experiment_duration %>% mean()) /60000, 2)` minutes on average and were paid 0.4 British Pounds.
 
-## Running Code
+The experiment code, data an material are [available online](https://github.com/magpie-ea/magpie3-causal-implicature). A live version of the experiment can be tested [here](https://magpie-ea.github.io/magpie3-causal-implicature/).
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
+The experimental material consisted of four different conditions of which each participant saw exactly one (between-subject design). The critical trial involved a binary forced choice, see Figure @fig-screenshot-trial.
 
 ```{r}
 #| echo: false
-2 * 2
+#| label: fig-screenshot-trial
+#| fig-cap: "Screenshot from a trial in condition 'association'"
+knitr::include_graphics("screenshot-trial.png")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+The four conditions differed with respect to the sentence in bold in the screenshot in Figure @fig-screenshot-trial, like so:
+
+-   **association**: ... a high yield of xeliherb is associated with the presence of another plant called ralocrop.
+-   **intervention**: ... a high yield of xeliherb was obtained whenever another plant called ralocrop was cultivated as well.
+-   **commonCause**: ... a high yield of xeliherb is associated with the presence of another plant called ralocrop. But they also found that ralocrop only grows on particularly fertile grounds.
+-   **deniedCausality**: ... a high yield of xeliherb is associated with the presence of another plant called ralocrop. But there is no evidence that the cultivation of ralocrop causes a better yield of xeliherb.
+
+The relevant condition of interest is **association**. 
+The other conditions function as reference categories. 
+We expect different degrees of belief in the relevant causal relation (ralocrop causes a high yield of xeliherb) after processing different statements by the science team (= different experimental conditions).
+The auxiliary assumption is that the more participants put faith in the relevant causal relation, they should be more inclinded to select the "BOTH" option. 
+Concretely, we therefore expect higher choice rates of the "both" option in the **association** condition than in the **deniedCausality** condition; thus, this latter condition provides a potential lower bound of causal implicature strength.
+An upper bound would be given by the **intervention** condition, which we predict to have highest choice rates of "BOTH".
+
+##  Results
+
+The proportion of choice of the "BOTH" option across conditions is shown in Figure @fig-results-barplot.
+Descriptively, the order of choice rates accross conditions matches expectations.
+
+```{r}
+#| echo: false
+#| label: fig-results-barplot
+#| warning: false
+#| fig-cap: "Proportion of choice of 'BOTH' option per condition (with bootstrapped 95% CIs)."
+
+sumStats <- d %>% 
+  mutate(decision = ifelse(decision == "both", 1, 0)) %>% 
+  group_by(condition) %>% 
+  tidyboot_mean(column = decision) %>% 
+  mutate(condition = factor(condition, levels = c("deniedCausation", "commonCause", "association", "intervention")))
+
+sumStats %>% 
+  ggplot(aes(x = condition, fill = condition, y = mean)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), alpha = 0.3, width =0.2) +
+  theme(legend.position = 'none') +
+  xlab('condition') +
+  ylab('proportion of "both" choice')
+```
+
+The relevant contrasts are not credibly different though.
+Based on a simple Bayesian logistic regression, we only have strong credible contrasts between the **deniedCausation** and the **intervention** condition.
+Nevertheless, there is some preliminary evidence also for the conclusion that the **deniedCausation** triggered less "BOTH" choices  than the **association** condition.
+
+```{r}
+#| cache: true
+#| warning: false
+#| results: hide
+
+# run regression model
+fit <- brm(decision ~ condition, 
+           family = bernoulli(link = "logit"), 
+           data = d %>% 
+             mutate(decision = factor(decision, 
+                                      levels = c("single", "both"))))
+```
+
+
+```{r}
+# collect pairwise comparisions
+
+deniedCausationVScommonCause <- faintr::compare_groups(
+  fit, 
+  lower = condition == "deniedCausation",
+  higher  = condition == "commonCause"
+)
+
+commonCauseVSassociation <- faintr::compare_groups(
+  fit, 
+  lower = condition == "commonCause",
+  higher  = condition == "association"
+)
+
+associationVSintervention <- faintr::compare_groups(
+  fit, 
+  lower = condition == "association",
+  higher  = condition == "intervention"
+)
+
+deniedCaustaionVSassociation <- faintr::compare_groups(
+  fit, 
+  lower = condition == "deniedCausation",
+  higher  = condition == "association"
+)
+
+deniedCausationVSintervention <- faintr::compare_groups(
+  fit, 
+  lower = condition == "deniedCausation",
+  higher  = condition == "intervention"
+)
+
+contrasts <- tribble(
+  ~comparison, ~posterior, ~"95%HDI (low)", ~"95%HDI (high)",
+  "denied causation < common cause" , 
+  deniedCausationVScommonCause$post_prob, 
+  deniedCausationVScommonCause$l_ci, 
+  deniedCausationVScommonCause$u_ci,  
+  "common cause < association" , 
+  commonCauseVSassociation$post_prob, 
+  commonCauseVSassociation$l_ci, 
+  commonCauseVSassociation$u_ci,
+  "association < intervention" , 
+  associationVSintervention$post_prob, 
+  associationVSintervention$l_ci, 
+  associationVSintervention$u_ci,
+  "denied causation < association" , 
+  deniedCaustaionVSassociation$post_prob, 
+  deniedCaustaionVSassociation$l_ci, 
+  deniedCaustaionVSassociation$u_ci,
+  "denied causation < intervention" , 
+  deniedCausationVSintervention$post_prob, 
+  deniedCausationVSintervention$l_ci, 
+  deniedCausationVSintervention$u_ci
+)
+
+knitr::kable(contrasts)
+```
+
+## Interpretation
+
+On the assumption that variation in the rate of "BOTH" choices is mostly explained by the varying strength of a "causal implicature", i.e., a variable degree of belief in the relevant causal relationship, the data provides suggestive evidence that "causal implicatures" are triggered at different degrees by different linguistic expressions. 
+In any case, the data warrant the conclusion that the manner in which a hypothetical "Science Team" delivers information about a statistical association might systematically influence a decision maker's policy choice.
+Even in the case of a pure association statement (the **association**) condition, a majority of participants endorsed the critical "BOTH" option, and even when the "Science Team" declared absence of evidence for a causal relation, the choice was still tilted towards the option that is only optimal if the relevant causal relation exists (the **deniedCaustion** condition).
+
+## Participants' justification of their choices
+
+After giving the binary choice, participants were asked to give a justification for their decision.
+These are listed in full below.
+
+While some justifications may hint at participants insufficient understanding of the scenario, it is still worth noting what they would choose based on their understanding, as insufficient understanding may also happen in "real-life" cases.
+On the other hand, it is interesting to see that some participants explicitly justify their "BOTH" decision in the **association** condition in terms of a causal relations (e.g., submission IDs 3901, 3906, ...).
+
+Also interesting, some participants seemed to have reasoned about causal structure at a different level, e.g., submission ID 3889 in the **commonCause** condition seems to have reasoned about relocrop causing the fertility of the ground in the long run.
+
+```{r}
+justifications <- d %>% select(submission_id, condition, decision, justification) %>% 
+  arrange(decision, condition, submission_id)
+
+knitr::kable(justifications)
+
+```
+

@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="MF">
+
+<title>Causal Implicature - Pilot data analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="02-data-exploration_files/libs/clipboard/clipboard.min.js"></script>
+<script src="02-data-exploration_files/libs/quarto-html/quarto.js"></script>
+<script src="02-data-exploration_files/libs/quarto-html/popper.min.js"></script>
+<script src="02-data-exploration_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="02-data-exploration_files/libs/quarto-html/anchor.min.js"></script>
+<link href="02-data-exploration_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="02-data-exploration_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="02-data-exploration_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="02-data-exploration_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="02-data-exploration_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Causal Implicature - Pilot data analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>MF </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyboot)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(aida)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faintr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">##################################################</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># these options help Stan run faster</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>())</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># use the aida-theme for plotting</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_aida</span>())</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># global color scheme / non-optimized</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>project_colors <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"#E69F00"</span>, <span class="st">"#56B4E9"</span>, <span class="st">"#009E73"</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"#F0E442"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span>, </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"#CC79A7"</span>, <span class="st">"#000000"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># setting theme colors globally</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>scale_colour_discrete <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(..., <span class="at">values =</span> project_colors)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>scale_fill_discrete <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(..., <span class="at">values =</span> project_colors)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="do">##################################################</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'01-wrangled-data.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="study-details" class="level2">
+<h2 class="anchored" data-anchor-id="study-details">Study details</h2>
+<p>N=200 participants recruited via Prolific (English Native, at least 10 previous studies, at least 90% approval rate), but only N=198 data sets were received (due to technical issues). Participants took about 2.41 minutes on average and were paid 0.4 British Pounds.</p>
+<p>The experiment code, data an material are <a href="https://github.com/magpie-ea/magpie3-causal-implicature">available online</a>. A live version of the experiment can be tested <a href="https://magpie-ea.github.io/magpie3-causal-implicature/">here</a>.</p>
+<p>The experimental material consisted of four different conditions of which each participant saw exactly one (between-subject design). The critical trial involved a binary forced choice, see Figure <a href="#fig-screenshot-trial">Figure&nbsp;1</a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-screenshot-trial" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="screenshot-trial.png" class="img-fluid figure-img" width="889"></p>
+<p></p><figcaption class="figure-caption">Figure 1: Screenshot from a trial in condition ‘association’</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The four conditions differed with respect to the sentence in bold in the screenshot in Figure <a href="#fig-screenshot-trial">Figure&nbsp;1</a>, like so:</p>
+<ul>
+<li><strong>association</strong>: … a high yield of xeliherb is associated with the presence of another plant called ralocrop.</li>
+<li><strong>intervention</strong>: … a high yield of xeliherb was obtained whenever another plant called ralocrop was cultivated as well.</li>
+<li><strong>commonCause</strong>: … a high yield of xeliherb is associated with the presence of another plant called ralocrop. But they also found that ralocrop only grows on particularly fertile grounds.</li>
+<li><strong>deniedCausality</strong>: … a high yield of xeliherb is associated with the presence of another plant called ralocrop. But there is no evidence that the cultivation of ralocrop causes a better yield of xeliherb.</li>
+</ul>
+<p>The relevant condition of interest is <strong>association</strong>. The other conditions function as reference categories. We expect different degrees of belief in the relevant causal relation (ralocrop causes a high yield of xeliherb) after processing different statements by the science team (= different experimental conditions). The auxiliary assumption is that the more participants put faith in the relevant causal relation, they should be more inclinded to select the “BOTH” option. Concretely, we therefore expect higher choice rates of the “both” option in the <strong>association</strong> condition than in the <strong>deniedCausality</strong> condition; thus, this latter condition provides a potential lower bound of causal implicature strength. An upper bound would be given by the <strong>intervention</strong> condition, which we predict to have highest choice rates of “BOTH”.</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>The proportion of choice of the “BOTH” option across conditions is shown in Figure <a href="#fig-results-barplot">Figure&nbsp;2</a>. Descriptively, the order of choice rates accross conditions matches expectations.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-results-barplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="02-data-exploration_files/figure-html/fig-results-barplot-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure 2: Proportion of choice of ‘BOTH’ option per condition (with bootstrapped 95% CIs).</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The relevant contrasts are not credibly different though. Based on a simple Bayesian logistic regression, we only have strong credible contrasts between the <strong>deniedCausation</strong> and the <strong>intervention</strong> condition. Nevertheless, there is some preliminary evidence also for the conclusion that the <strong>deniedCausation</strong> triggered less “BOTH” choices than the <strong>association</strong> condition.</p>
+<div class="cell" data-hash="02-data-exploration_cache/html/unnamed-chunk-4_66326cc11078bfd23478b1e59155438c">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run regression model</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">brm</span>(decision <span class="sc">~</span> condition, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">family =</span> <span class="fu">bernoulli</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> d <span class="sc">%&gt;%</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>             <span class="fu">mutate</span>(<span class="at">decision =</span> <span class="fu">factor</span>(decision, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"both"</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># collect pairwise comparisions</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>deniedCausationVScommonCause <span class="ot">&lt;-</span> faintr<span class="sc">::</span><span class="fu">compare_groups</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> condition <span class="sc">==</span> <span class="st">"deniedCausation"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">higher  =</span> condition <span class="sc">==</span> <span class="st">"commonCause"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>commonCauseVSassociation <span class="ot">&lt;-</span> faintr<span class="sc">::</span><span class="fu">compare_groups</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> condition <span class="sc">==</span> <span class="st">"commonCause"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">higher  =</span> condition <span class="sc">==</span> <span class="st">"association"</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>associationVSintervention <span class="ot">&lt;-</span> faintr<span class="sc">::</span><span class="fu">compare_groups</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> condition <span class="sc">==</span> <span class="st">"association"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">higher  =</span> condition <span class="sc">==</span> <span class="st">"intervention"</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>deniedCaustaionVSassociation <span class="ot">&lt;-</span> faintr<span class="sc">::</span><span class="fu">compare_groups</span>(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> condition <span class="sc">==</span> <span class="st">"deniedCausation"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">higher  =</span> condition <span class="sc">==</span> <span class="st">"association"</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>deniedCausationVSintervention <span class="ot">&lt;-</span> faintr<span class="sc">::</span><span class="fu">compare_groups</span>(</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  fit, </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">lower =</span> condition <span class="sc">==</span> <span class="st">"deniedCausation"</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">higher  =</span> condition <span class="sc">==</span> <span class="st">"intervention"</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>contrasts <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>comparison, <span class="sc">~</span>posterior, <span class="sc">~</span><span class="st">"95%HDI (low)"</span>, <span class="sc">~</span><span class="st">"95%HDI (high)"</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"denied causation &lt; common cause"</span> , </span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  deniedCausationVScommonCause<span class="sc">$</span>post_prob, </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  deniedCausationVScommonCause<span class="sc">$</span>l_ci, </span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  deniedCausationVScommonCause<span class="sc">$</span>u_ci,  </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"common cause &lt; association"</span> , </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  commonCauseVSassociation<span class="sc">$</span>post_prob, </span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  commonCauseVSassociation<span class="sc">$</span>l_ci, </span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  commonCauseVSassociation<span class="sc">$</span>u_ci,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="st">"association &lt; intervention"</span> , </span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  associationVSintervention<span class="sc">$</span>post_prob, </span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  associationVSintervention<span class="sc">$</span>l_ci, </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  associationVSintervention<span class="sc">$</span>u_ci,</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>  <span class="st">"denied causation &lt; association"</span> , </span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>  deniedCaustaionVSassociation<span class="sc">$</span>post_prob, </span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  deniedCaustaionVSassociation<span class="sc">$</span>l_ci, </span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  deniedCaustaionVSassociation<span class="sc">$</span>u_ci,</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="st">"denied causation &lt; intervention"</span> , </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  deniedCausationVSintervention<span class="sc">$</span>post_prob, </span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  deniedCausationVSintervention<span class="sc">$</span>l_ci, </span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  deniedCausationVSintervention<span class="sc">$</span>u_ci</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(contrasts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 46%">
+<col style="width: 14%">
+<col style="width: 18%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">comparison</th>
+<th style="text-align: right;">posterior</th>
+<th style="text-align: right;">95%HDI (low)</th>
+<th style="text-align: right;">95%HDI (high)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">denied causation &lt; common cause</td>
+<td style="text-align: right;">0.86575</td>
+<td style="text-align: right;">-0.3617120</td>
+<td style="text-align: right;">1.443960</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">common cause &lt; association</td>
+<td style="text-align: right;">0.77500</td>
+<td style="text-align: right;">-0.6411078</td>
+<td style="text-align: right;">1.528498</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">association &lt; intervention</td>
+<td style="text-align: right;">0.75775</td>
+<td style="text-align: right;">-0.9028354</td>
+<td style="text-align: right;">1.908592</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">denied causation &lt; association</td>
+<td style="text-align: right;">0.96150</td>
+<td style="text-align: right;">-0.0855023</td>
+<td style="text-align: right;">2.061716</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">denied causation &lt; intervention</td>
+<td style="text-align: right;">0.99650</td>
+<td style="text-align: right;">0.2154804</td>
+<td style="text-align: right;">2.682877</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p>On the assumption that variation in the rate of “BOTH” choices is mostly explained by the varying strength of a “causal implicature”, i.e., a variable degree of belief in the relevant causal relationship, the data provides suggestive evidence that “causal implicatures” are triggered at different degrees by different linguistic expressions. In any case, the data warrant the conclusion that the manner in which a hypothetical “Science Team” delivers information about a statistical association might systematically influence a decision maker’s policy choice. Even in the case of a pure association statement (the <strong>association</strong>) condition, a majority of participants endorsed the critical “BOTH” option, and even when the “Science Team” declared absence of evidence for a causal relation, the choice was still tilted towards the option that is only optimal if the relevant causal relation exists (the <strong>deniedCaustion</strong> condition).</p>
+</section>
+<section id="participants-justification-of-their-choices" class="level2">
+<h2 class="anchored" data-anchor-id="participants-justification-of-their-choices">Participants’ justification of their choices</h2>
+<p>After giving the binary choice, participants were asked to give a justification for their decision. These are listed in full below.</p>
+<p>While some justifications may hint at participants insufficient understanding of the scenario, it is still worth noting what they would choose based on their understanding, as insufficient understanding may also happen in “real-life” cases. On the other hand, it is interesting to see that some participants explicitly justify their “BOTH” decision in the <strong>association</strong> condition in terms of a causal relations (e.g., submission IDs 3901, 3906, …).</p>
+<p>Also interesting, some participants seemed to have reasoned about causal structure at a different level, e.g., submission ID 3889 in the <strong>commonCause</strong> condition seems to have reasoned about relocrop causing the fertility of the ground in the long run.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>justifications <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> <span class="fu">select</span>(submission_id, condition, decision, justification) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(decision, condition, submission_id)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(justifications)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 2%">
+<col style="width: 89%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">submission_id</th>
+<th style="text-align: left;">condition</th>
+<th style="text-align: left;">decision</th>
+<th style="text-align: left;">justification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">3891</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">On the information provided it seems that there is a better chance of having a good crop of Xeliherb and therefore sufficient seeds for the colonists if both plants are cultivated.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3895</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Best to grow both and have options</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3896</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">To get a better crop I choose to cultivate both</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3900</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The plant grows sparsely, so to get a higher yield it would make sense to grow both types.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3901</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because in order for the constant supply, both are needed as one cultivates the other.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3906</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">To ensure that some deli herb grows as they could be dependent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3907</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because cultivating Ralocrop as well would encourage having more of the needed crop Xelicrop (sp?).</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3909</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Given that ralocrop helps the yield of xeloherb it makes sense to also cultivate that, even if it doesn’t have any direct use it will help get more of the seeds we do need</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3910</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">to ensure the survival of the colonists but also for the other plant that they just found growing there might make their dependency lower on the other plant</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3911</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Cultivating both will yield higher levels of the one needed.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3915</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because it’s better to give us the best chance by looking at all options</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3916</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because you need both to survive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3919</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">it was explained in the description both produced the same</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3925</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If a positive link has been found between both plants, and no negatives have been discovered from also cultivating the second plant, I see no reason not to cultivate both.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3926</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">You need to cultivate both crops to maximise production</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3927</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If the batch of the essential plant doesn’t grow properly then at least there is a plan B where it is likely to grow again.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3928</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If xeliherb cultivation is higher near ralocrop, that would increase my chances of growing my required herb.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3931</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">To ensure a high yield of the crop necessary for survival.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3936</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">In order to get a high yield of what we need, Ralacor is necessary. Seems like the smartest thing to do.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3940</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Ralocorp might be beneficial for the growth of xeliherb</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3942</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would cultivate both as I think that a higher yield when grown together would be more beneficial and then the other herb assuming it cannot be used for food, could be used for something else such as a bio fuel or even using it to make things like woven fabric when dried etc.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3951</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because it states that to get a high yield of one crop, the presence of the other crop is needed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3954</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Sounds like they are companion plants - supporting the growth of each other. You also didn’t proved any information that the other plant was one we didn’t want to cultivate.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3957</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">As they are both growing together, it would be sensible to assume there is possibly a beneficial relationship between these plants, therefore it is sensible to give the plants the best chance to cultivate.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3963</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">As the presence of the other herb increases yield of the herb we need, I would hope the increase in yield would exceed the usage of space by the second herb if managed correctly.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3964</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I actually think I would need more info to make the decision, as it isn’t clear whether we would be cultivating a weed that grows alongside xeliherb but gives no benefit, or whether it is something that adds eg nutrients to the soil. But as the decision was binary, I chose to also cultivate it so this could be looked into</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3971</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because I would want a high yield of the plant necessary for our survival. if it takes two plants that’s fine</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3972</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">This is because the two plants are codependent and thus both plants are needed for survival</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3973</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It is dependant on the other to grow</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3983</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because they were always found together and you would assume they are codependent</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3985</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">A higher yield may be possible by cultivating both.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3991</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would decide to cultivate both, both will be a great innovations and opportunities in my opinion.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3996</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">This should give a greater yield of the crop we want and we might risk extinction for that crop we want in the option where we only cultivate the crop we want.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4001</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">hedging my bets that one will succeeed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4016</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The text given states Xeliherb grows sparsely on the planet however with the “presence” of Ralocrop a greater yield seen from those crops - therefore it would make sense to plant both crops to maximise yield</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4017</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because it is needed to survive.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4026</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">higher yields are expected with the crop combo, one of these crop is necessary for the colonists survival but the other crop is necessary for the the survival crop to thrive.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4032</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">There would be a more reliable supply and larger crop in the presence of the other plant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3889</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If it is fertile grounds, I’d suggest sowing both seeds to keep the grounds fertile with the hope of using those grounds in the future.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3893</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would like to have the option of both in case one runs out.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3899</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It could be another source of food or medicine. Variety in nutrition is important as well.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3902</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If we cultivate both then they will be more of the one we need.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3903</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would not want to be responsible for people dying of hunger.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3904</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because it will help as a change</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3905</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The plants seem to encourage each other so it makes sense to keep their habitat together</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3914</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would want the highest yield possible and this would give the best chance of this happening</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3917</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">it is important to have both products to increase the yield of the one that is important for the survival of the population</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3921</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">You may have a better chance of getting the herb you want if you try and cultivate both</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3923</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Unsure why.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3933</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Ralocrop may contribute to the growth of Xiloherb. It also may not, but is unlikely to be detrimental. Until the colony finds out if the presence of Ralocrop is necessary for the prolific growth of Xiloherb, it’s best to try to match the natural conditions that prolific growth of Xiloherb occurs in.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3934</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Makes sense to diversify the crops</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3943</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It’s sparse so I would want to ensure a high yield.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3947</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It seems the most logical option, and the other herb could prove beneficial with some research.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3949</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It’s better to plant a companion plant (ralocrop) and guarantee a higher yield, than to plant xeliherb on it’s own and end up with a smaller yield.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3955</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If there’s an option to increase yields then that should be explored. Food security, especially in an unknown environment, is important to achieve.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3956</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">the information provided suggests that xeliherb has a better chance of being cultivated alongside the other crop.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3961</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Although it will be easy to cultivate xeliherb, but for long term sustainability, it would be more practical to cultivate ralocorp as well seeing that it is a core component for bigger and higher yields of xeliherb. Once ralocorp is obtained and fertile ground is found, more and greater quantities can be harvested to secure future survival.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3965</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">More chance of survival</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3966</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because there is a link between the success of xeliherb and ralocrop, so it makes sense to give xeliherb the most successful environment possible</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3969</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It seems that the Rarocrop is present around xeiherb so I assume growing both would mean a bigger chance of survival</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3976</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because with ralahorb there was also a high yield of xeliherb</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3977</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">There is an association with a high yield of the first plant with the other</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3978</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If the second plant seems to help with a higher yield of the first it seems like a good idea.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3979</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because also cultivating ralocrop would help to increase the harvests of exherb</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3984</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would cultivate both as they seem to have an inter-relationship that means production of the essential herb would be aided by cultivating both, and the chance of this higher yield would balance out the difficulty of finding more fertile ground for the crops to grow in.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3986</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">So that I could get a good supply of the necessary herb. The colony would get bigger over time.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3994</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Rhelicrop only grows on fertile land and xeliherb is associated with the growth of that suggesting it also needs fertile land. Growing them both together obviously provide a needed ecosystem for successful growth</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3997</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">As the 2 crops planted together should produce a higher yield than just the 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3998</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Seems like the most sensible approach.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3999</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Cultivating both plants would ensure the xelifin plant strives ensuring the survival of my colony</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4002</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Both plants would come in useful to the survival of the colonists</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4004</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because it has a better chance.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4005</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because hou can’t have one without the other</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4012</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">You may find a use for the extra plant and it gives you a better yield for the first plant if grown together.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4014</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because we want to get a high yield and if we are cultivating anyway, its not much more work than just doing one plant</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4015</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">To give us the best chance of producing a higher yield and therefore more survival.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4019</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would hope we could locate the fertile grounds in order to get a higher yield</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4022</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Both plants are needed for a high yield of the crops</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4023</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Double the food yield</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4024</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Xeliherb is essential for life and could potentially need the ralocrop to survive. Too risky to only harvest the xeliherb.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4027</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">As this would allow for more of the Xeliherb to be produced.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4029</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">There is a liklihood that a symbiotic relationship could be evident in promoting the desired crop. It will therfore only grow as apair.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4030</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">One requires the presence of the other to succeed</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4031</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The other herb grows on fertile ground and could have future benefits for the planet. It may be that the other herb improves the soil quality which will ensure that the essential herb could thrive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4035</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Without ralocrop, there wouldn’t be much xeliherb as it’s usually very sparsely found, so to help increase high yields of it ralocorp is necessary to help supply the colony well into the future.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4036</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">it seems to exist well with the other crop</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4037</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I believe this would be the better option- still can fail</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4038</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If it doesn’t help then the same amount would grow anyway</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4039</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">With both might make it an easy process</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4040</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I think it would be better to grow both</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4043</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">i thought the expaination was contradictory so thought better to ere on the side of caution</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4045</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would choose to use both so you never have to fully rely on one crop should something happen to that particular crop</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4046</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because if it is absolutely needed for survival, having more is more important than having better crops.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4049</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Whilst there is no evidence that the cultivation of both produces a higher yield of xeliherb there is an association</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4050</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">even though the other plant is not proven to yield more xeliherb, it is worth taking the chance.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4051</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">increased chances of having 2 types of crop instead of just 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4052</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">There is less chance of not getting enough xeliherb if I cultivate both</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4054</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Useful to cultivate both, then you have a better chance of harvesting a crop in case one fails.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4055</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Although there is not significant evidence to link them together, there is still evidence that one is found where the other is. At the least, by growing them together, we may better understand the relationship between the two.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4056</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">New planet, uncertain ecosystem. There may well be something the scientists missed, especially over such a short time. Unless we all have Star-Trek type instant analysis technology, it would pay to be cautious.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4057</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">its best to diversify and the second crop may end up being the better one in the end</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4058</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">why settle for one when you can successfully grow two different things which in time may benefit more</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4059</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If both seem to be growing together there seems to be no harm in growing both. altthough the evidence is correlational and causation isn’t guaranteed it’s worth a try</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4060</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would plant both to ensure the success of growing the herb as it my rely on the other</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4062</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I think you would have nothing to lose by doing both, I would give it a try.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4064</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If there is evidence that the yield is better, even without concrete proof, I would grow both to hedge my bets.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4066</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would go with this plant as its likely to be able to keep everyone fed as the other one isn’t proven yet.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4067</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The reason for choosing both is that they both could be used for the benefits of the colonists</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4069</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because there are no</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">consequences to cultivate both of them.</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4071</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">As there seems to be a positive association with the 2 together in the natural environment I would cultivate both so that could continue and hopefully provide better yields</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4072</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It seems evident that cultivating both would be more likely to ensure the continued survival of xeliherb</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4073</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The evidence seems anecdotal? Just because there is no evidence yet does not mean there is not some connection. If later it is proven the second crop is actually not helpful, then no harm is done. If it does help, then the reason can still yet b discovered.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4074</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Higher yield of first plant required for the humans</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4075</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would take my chances as long as it will not cause any harm to the other plant.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4077</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would take that chance just to see if it would yeild me the desired results as opposed to not trying at all.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4079</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Always good to explore, so if that was the only way to do it. You might as well, not harming the other planet</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4080</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">up until I know that can thrive without another I will grow both plants because from what I know is that they will be a high yield when they coexist.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4082</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It would be better to err on side of caution in case there is a correlation between the two.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4083</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It is better to be safe than sorry, i.e.&nbsp;if both substances together seem to produce a higher yield, despite there being no concrete evidence that the second one has any effect on the first, it seems logical to use both just in case.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4084</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would choose both as there is a better chance of crops to choose from</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4085</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Even though there is no evidence that the other plant is better I think it’s better to caltivate both plants.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3890</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">As xeliherb is essential for survival, one would require high amounts of it. And the only way to yield a high amount is to grow both of the plants.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3897</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">A higher yield has been proven when cultivating both together so thats why I chose that option.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3898</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">To get higher yield.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3908</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">More guaranteed yield on the crop plus there may also be a use for the second crop. Then crop rotation can also be implemented in following years</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3912</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">By cultivating both you are likely to get a higher yield of the crop we need</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3913</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It enables sustainability and feasability of the xeliherb (which appears to be uncommon)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3918</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">With cultivating both, it would ensure everyone had enough.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3920</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">For the increased yield of the necessary plant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3922</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Cultivation of both would appear to produce a higher yield</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3930</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because if the addition of Ralocrop will make the yield of Xeliherb better, it’s obviously a winner and will provide more of the vital nutrients needed for my colonists, for hopefully less effort.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3932</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would like it to be that I have enough resources for the people I need to keep feed and living.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3935</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I am assuming the high yield meant despite land given over to the other herb the total yield would still be higher</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3938</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Better crop of the needed plant.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3939</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I would cultivate both planets to make sure that we always have a high yield of this plant. It just makes more sense to have more for survival.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3941</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Even though the herb grows sparsely on the planet, to support a lot of people it would be best to grow as much as possible so makes sense to grow both.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3945</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It would cultivate a higher yield as opposed to a sparse one</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3946</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">The evidence suggests that planting both crops improves the yield of the necessary crop. Planting both crops should ensure a greater yield and ensure a sufficient supply.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3948</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because I want to insure that we get a high yield- if we have to grow both plants to make that happen so be it.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3950</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Even if the ralcrop was not the causative agent for increase of xelifan, what is the harm in having it anyway as ralcrop does not seem to affect xelifan negatively. I would rather have it there than risk not having xelifan at all</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3953</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because it brings in a higher yield when both done</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3962</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because Xeliherb crows sparingly on its on and it is in high demand so i feel planting it together with other tree which has been proven improve the its growth is the best thing to do for the people</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3967</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I chose both as we need one to grow the other better. It makes more sense to do this</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3968</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If the xeliherb grows better in the presence of the other plant, then that needs to be the priority in planting the field. The symbiotic relationship will likely result in a higher yield of xeliherb than if it had been planted by itself.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3970</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Cultivating both plants gives a higher yield of the desired plant.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3974</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">You get a higher yeild if you plant both</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3980</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">If cultivating some of the second plant will result in a higher overall yield of the first plant then I would happily throw some of the second plant in the mix to try and guarantee high yields of the first plant. And a bit of diversity is never a bad thing in my opinion.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3981</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">We will get more Xelihwrb when Rolocrop is also present so it makes sense to cultivate both to get more yield</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3987</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It makes sense for me to cultivate the other crop as well if that is what guarantees the high yield that is needed for survival. Since it is based on scientific research I would go for it.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3988</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Better chance of the other seed growing when growing the combination of seeds</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3989</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">because both planets are needed as the plant needed grows next to the other plant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3993</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">It was found that a higher yield of the necessary crop was found when both crops were cultivated together</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3995</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">growing both crops seems to give a better chance of the xeliherb growing successfully</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4008</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Would be able to cultivate more if cultivate the other herb too. Higher yield is obviously better.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4009</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because it was more effective to grow both</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4010</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Provided the scouts’ observations were correct, it would increase the yield of xeliherbs.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4011</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">TO HELP THE GROWTH OF BOTH SEEDS SO THE COLONY CAN SURVIVE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4013</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">over supply</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4018</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">to give a higher yeild</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4020</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">I do think that if we are able to get a high yield of xeliherb with ralocrop, then ralocrop should be made. It would be interesting to know if there are any negative downsides to cultivate ralocrop, but this was not mentioned in the scenario (otherwise I could see this affecting my choice!)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4025</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">Because a higher yield is expected when both crops are cultivated, so there is more available for the colonists.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4033</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">More ralocrop means more xeliherb</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4034</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">both</td>
+<td style="text-align: left;">High yield when the other plant was cultivated too</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3937</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">so that theres more in the future</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3944</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Because correlation does not equal causation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3975</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">It would ensure no interference.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4007</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">I wouldnt want to steal anything from the other planet so we can plant and grow what we have.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4021</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Because correlation does not equal causation.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4028</td>
+<td style="text-align: left;">association</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There was very little information concerning the second crop i.e.&nbsp;does one help the other to grow, can they both be consumed. Therefore I decided to go with the essential crop only.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3892</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">The engineers did not report what type of soil is required and where it could be found. If both crops will planted you need to be selective where to plant the crops. On the other hand, you can plant anywhere if you will only plant one crop.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3894</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">So that we have an ensured supply.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3924</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">To feed the colonists</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3952</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There will be more room to grow more of the xeliherb that they will be able to survive on. It may be a lengthier process but the yield should be greater</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3958</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Ralocrop only grows on very fertile ground, and I was not told if the fields at my disposal are very fertile or not. Given this lack of info, while Ralocrop would boost the other essetial herb, if I do not know for sure that it will grow, I’d rather use the entire space for the essential herb.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3959</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">so that more of the plant can grow, if it grows better with the other plant (sorry, forgot how to spell its name).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3960</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There is not enough precise information available to confirm that cultivating the second plant would be worthwhile.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3982</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There was no mention of a benefit for the other one</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3992</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Ralo crop only grows in fertile ground. The new planet may not have fertile ground and I would want to make sure the colony had food for the first few harvests before trying to see if the Ralocrop would grow and not waste the lad around the colony trying to grow something that might not work</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4000</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There was no information about fertile grounds being available</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4006</td>
+<td style="text-align: left;">commonCause</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">This is the essential crop and the other crop can only be grown on fertile ground so would be more effort for the same reward</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4041</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">It has been proven and I would not take the risk with the other</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4042</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There is no current evidence that cultivating both with help.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4044</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Because there wasn’t evidence that cultivating both would result in a higher yield of the former</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4047</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">As it states it may not be linked</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4048</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Greater chance of survival</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4053</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There’s no evidence to support it, so it’s not feasible to proceed with cultivating the two plants when we could use the limited space to cultivate just one. (I’m sorry I don’t remember the name of those plants).</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4061</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Because this ensures survival and the is no evidence that suggests the yield gets better when planting the other one.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4063</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">There is no evidence that suggests cultivating ralocrop would cause a better yield of xeliherb so i think it would just be a waste of time and would prefer to concentrate on cultivating xeliherb as its essential to survival.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4065</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Based on evidence</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4068</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">I would only take what I need.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4070</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">This is the most important crop that the people need and there is no evidence that the other crop is needed or does anything to help this crop grow so I would just grow the crop that is needed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4076</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Because there’s still a lot to learn and by learning I have to horn my skills</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4078</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Xeliherb is essential for life on planet, regardless of yield. If there is no direct proof growing the other will increase yield, why waste the field space with the second plant?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4081</td>
+<td style="text-align: left;">deniedCausation</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">I chose to cultivate only xeliherb because there was no evidence that the other type of plant would help cultivate a better xeliherb. So, i did not want to waste my time and efforts.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3888</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">because if you cultivate both, you will have nothing left in the long run</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3929</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">as we were told that is what could go</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3990</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">Sounds like the best choice</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4003</td>
+<td style="text-align: left;">intervention</td>
+<td style="text-align: left;">single</td>
+<td style="text-align: left;">So that it last if I cultivate both they might both go extinct</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

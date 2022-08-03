@@ -4,6 +4,7 @@ author: "MF"
 format: 
   html:
     code-fold: true
+    self-contained: true
 editor: visual
 ---
 

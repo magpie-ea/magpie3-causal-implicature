@@ -16,6 +16,9 @@
           <p>
             <strong>{{ trial.criticalSentence }}</strong>
           </p>
+          <p>
+            {{ trial.furtherContext }}
+          </p>
           <p><strong>Question:</strong> {{ trial.taskQuestion }}</p>
           <ForcedChoiceInput
             :response.sync="$magpie.measurements.response"

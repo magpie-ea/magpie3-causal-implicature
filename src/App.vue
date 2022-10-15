@@ -71,7 +71,7 @@
             Due to atmospheric conditions and technical problems you are about to lose contact to an outpost on the planet.
             You have only very little time to send a short message to the colonist in this outpost before all contact breaks off.
             It may take a very long time before you can make contact again.
-            The colonists need to know what your Science Team found out about xeliherb and ralocrop.
+            The colonists know about xeliherb and its importance, but they also need to know what your Science Team found out about xeliherb and ralocrop.
             You cannot forward the original report.
             Please type a reproduction from memory in this textbox!
           </p>

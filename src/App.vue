@@ -64,6 +64,39 @@
           />
         </Slide>
       </Screen>
+
+      <Screen :key="i">
+        <Slide>
+          <p>
+            Due to atmospheric conditions and technical problems you are about to lose contact to an outpost on the planet.
+            You have only very little time to send a short message to the colonist in this outpost before all contact breaks off.
+            It may take a very long time before you can make contact again.
+            The colonists need to know what your Science Team found out about xeliherb and ralocrop.
+            You cannot forward the original report.
+            Please type a reproduction from memory in this textbox!
+          </p>
+          <!-- <p style="color: grey"> -->
+          <!--   (You need to enter at least 20 characters of text to proceed.) -->
+          <!-- </p> -->
+          <TextareaInput :response.sync="$magpie.measurements.reproduction" />
+          <button
+            v-if="
+              $magpie.measurements.reproduction
+            "
+            @click="$magpie.saveAndNextScreen()"
+          >
+            Submit
+          </button>
+          <Record
+            :data="{
+                   trialNR: i+2,
+                   itemNr: trial.itemNr,
+                   itemName: trial.itemName,
+                   condition: trial.condition
+            }"
+          />
+        </Slide>
+      </Screen>
     </template>
 
     <PostTestScreen />
@@ -80,7 +113,8 @@ import _ from 'lodash';
 export default {
   name: 'App',
   data() {
-    return { items: _.shuffle(items).slice(0, 1) };
+    // return { items: _.shuffle(items).slice(0, 1) };
+    return { items: items.slice(0, 1) };
   },
   computed: {
     // Expose lodash to template code
@@ -90,7 +124,7 @@ export default {
   },
   methods: {
     getPreviousResponse: function () {
-      return this.$magpie.trialData[0][0].response;
+      return this.$magpie.trialData[1][0].response;
     }
   }
 };

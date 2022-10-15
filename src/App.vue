@@ -73,7 +73,7 @@
             It may take a very long time before you can make contact again.
             The colonists know about xeliherb and its importance, but they also need to know what your Science Team found out about xeliherb and ralocrop.
             You cannot forward the original report.
-            Please type a reproduction from memory in this textbox!
+            Please type what you recall from the Science Team's report into this textbox!
           </p>
           <!-- <p style="color: grey"> -->
           <!--   (You need to enter at least 20 characters of text to proceed.) -->

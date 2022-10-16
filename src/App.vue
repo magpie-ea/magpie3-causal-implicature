@@ -12,13 +12,23 @@
     <template v-for="(trial, i) of items">
       <Screen :key="i">
         <Slide>
-          <p><strong>Context:</strong> {{ trial.context }}</p>
+          <h2><strong>Context</strong></h2>
+
+          <p>You are leading a group of colonists to a far away planet called Xelifan-3. The information you received from Mission Control when you departed months ago is this:</p>
+
+          <div style="background-color:#FF9999"><strong>Information from Mission Control:</strong> <br> To survive on Xelifan-3, you need constant supply of the seeds of a plant called xeliherb, which grows exclusively on Xelifan-3.</div>
+
+          <p>Prior to arrival on Xeliherb-3 your Science Team has been sent ahead to explore the planet. You have since lost contact with the Science Team, but you did receive one short report. Here is what the Science Team reported:</p>
+
+          <div style="background-color:#AAAAFF"><strong>Information from Science Team:</strong> <br> A high yield of xeliherb is associated with the presence of ralocrop.
+          </div>
+
           <p>
-            <strong>{{ trial.criticalSentence }}</strong>
+            Ralocrop is another plant, which is not exclusive to Xelifan-3.
+            It can be found throughout the galaxy and is well-known.
+            It is also well-known that the cultivation of ralocrop is costly (water, energy resources).
           </p>
-          <p>
-            {{ trial.furtherContext }}
-          </p>
+
           <p><strong>Question:</strong> {{ trial.taskQuestion }}</p>
           <ForcedChoiceInput
             :response.sync="$magpie.measurements.response"
@@ -69,11 +79,11 @@
         <Slide>
           <p>
             Due to atmospheric conditions and technical problems you are about to lose contact to an outpost on the planet.
-            You have only very little time to send a short message to the colonist in this outpost before all contact breaks off.
-            It may take a very long time before you can make contact again.
-            The colonists know about xeliherb and its importance, but they also need to know what your Science Team found out about xeliherb and ralocrop.
+            You have only very little time to send a short message to the colonists in this outpost before all contact breaks off for potentially a long time.
+            The colonists in the outpost know about xeliherb and its importance. They know the costs associated with cultivation of ralocrop.
+            What they do not know is what your Science Team reported.
             You cannot forward the original report.
-            Please type what you recall from the Science Team's report into this textbox!
+            Please type what you recall from the Science Team's report into the text box, so that the other colonists can make a decision like you did on their own!
           </p>
           <!-- <p style="color: grey"> -->
           <!--   (You need to enter at least 20 characters of text to proceed.) -->

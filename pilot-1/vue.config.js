@@ -20,7 +20,9 @@ module.exports = {
     stylelint: {}
   },
   publicPath:
-    process.env.NODE_ENV === 'production' && process.env.REPO_NAME
-      ? '/' + process.env.REPO_NAME + '/'
-      : '/'
+      process.env.NODE_ENV === 'production' && process.env.REPO_NAME
+          ? '/' +
+          process.env.REPO_NAME +
+          __dirname.substring(0, process.env.GITHUB_WORKSPACE.length)
+          : '/'
 };

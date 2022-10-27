@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         folder:
-          - experiments/pilot-02
+          - experiments/pilot-02a
 
     runs-on: ubuntu-latest
     steps:

@@ -67,6 +67,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
-          folder: dist
+          folder: ${{ matrix.folder }}/dist
           target-folder: ${{ matrix.folder }}
           token: ${{ secrets.GITHUB_TOKEN }}

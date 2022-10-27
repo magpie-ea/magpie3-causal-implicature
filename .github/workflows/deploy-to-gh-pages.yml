@@ -24,7 +24,7 @@ jobs:
         uses: skjnldsv/read-package-engines-version-actions@v1.1
         id: versions
         with:
-          path: ${{matrix.folder}}/package.json
+          path: ${{matrix.folder}}
           fallbackNode: '^12'
           fallbackNpm: '^6'
 

@@ -122,6 +122,8 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
+console.log("Hi, I'm embedded!")
+
 export default {
   name: 'App',
   data() {

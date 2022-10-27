@@ -1,6 +1,8 @@
 <template>
   <Experiment title="Decision-making experiment">
     <InstructionScreen :title="'Welcome'">
+      Hi, I'm embedded!
+
       In this short experiment you will first read a description about a
       fictitious context in which you are supposed to make an decision based on
       some information you received from others. Please read the context

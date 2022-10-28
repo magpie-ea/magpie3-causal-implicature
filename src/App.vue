@@ -1,35 +1,29 @@
 <template>
-  <Experiment title="Decision-making experiment">
-    <InstructionScreen :title="'Welcome'">
-      In this short experiment you will first read a description about a
-      fictitious context in which you are supposed to make an decision based on
-      some information you received from others. Please read the context
-      information very carefully and make your decision deliberately.
-      <p></p>
-      After your choice, we will ask you to explain your choice in a few words.
-    </InstructionScreen>
+<Experiment title="Decision-making experiment">
+  <InstructionScreen :title="'Welcome'">
+    In this short experiment you will first read a description about a
+    fictitious context in which you are supposed to make an decision based on
+    some information you received from others. Please read the context
+    information very carefully and make your decision deliberately.
+    <p></p>
+    After your choice, we will ask you to explain your choice in a few words.
+  </InstructionScreen>
 
-    <template v-for="(trial, i) of items">
-      <Screen :key="i">
-        <Slide>
-          <h2><strong>Context</strong></h2>
+  <template v-for="(trial, i) of items">
+    <Screen :key="i">
+      <Slide>
+        <h2><strong>Context</strong></h2>
 
-          <p>You are leading a group of colonists to a far away planet called Xelifan-3. The information you received from Mission Control when you departed months ago is this:</p>
+        <p>You are leading a group of colonists to a far away planet called Xelifan-3. The information you received from Mission Control when you departed months ago is this:</p>
 
-          <div style="background-color:#FF9999"><strong>Information from Mission Control:</strong> <br> To survive on Xelifan-3, you need constant supply of the seeds of a plant called xeliherb, which grows exclusively on Xelifan-3.</div>
+        <div style="background-color:#FF9999"><strong>Information from Mission Control:</strong> <br> Two plants grow exclusively on Xelifan-3. They are called xeliherb and ralocrop. To survive on Xelifan-3, you need constant supply of the seeds of xeliherb. The cultivation of ralocrop is costly (water, energy resources).</div>
 
-          <p>Prior to arrival on Xeliherb-3 your Science Team has been sent ahead to explore the planet. You have since lost contact with the Science Team, but you did receive one short report. Here is what the Science Team reported:</p>
+          <p>On arrival to Xelifan-3 you find a message left by earlier colonists. Here is what the message says:</p>
 
-          <div style="background-color:#AAAAFF"><strong>Information from Science Team:</strong> <br> A high yield of xeliherb is associated with the presence of ralocrop.
+          <div style="background-color:#AAAAFF"><strong>Message from earlier colonists:</strong> <br> A high yield of xeliherb is associated with the presence of ralocrop.
           </div>
 
-          <p>
-            Ralocrop is another plant, which is not exclusive to Xelifan-3.
-            It can be found throughout the galaxy and is well-known.
-            It is also well-known that the cultivation of ralocrop is costly (water, energy resources).
-          </p>
-
-          <p><strong>Question:</strong> {{ trial.taskQuestion }}</p>
+          <p><strong>Question:</strong> Based on the information provided by Mission Control and the earlier colonists, will you cultivate both xeliherb and ralocrop on the fields available to your colony, or will you only cultivate xeliherb?</p>
           <ForcedChoiceInput
             :response.sync="$magpie.measurements.response"
             :options="['both xeliherb and ralocrop', 'only xeliherb']"
@@ -40,7 +34,8 @@
               trialNR: i,
               itemNr: trial.itemNr,
               itemName: trial.itemName,
-              condition: trial.condition
+              condition: trial.condition,
+              measure: 'choice'
             }"
           />
         </Slide>
@@ -55,10 +50,10 @@
           <!-- <p style="color: grey"> -->
           <!--   (You need to enter at least 20 characters of text to proceed.) -->
           <!-- </p> -->
-          <TextareaInput :response.sync="$magpie.measurements.justification" />
+          <TextareaInput :response.sync="$magpie.measurements.response" />
           <button
             v-if="
-              $magpie.measurements.justification
+              $magpie.measurements.response
             "
             @click="$magpie.saveAndNextScreen()"
           >
@@ -69,7 +64,8 @@
                    trialNR: i+1,
                    itemNr: trial.itemNr,
                    itemName: trial.itemName,
-                   condition: trial.condition
+                   condition: trial.condition,
+                   measure: 'justification'
             }"
           />
         </Slide>
@@ -78,20 +74,17 @@
       <Screen :key="i">
         <Slide>
           <p>
-            Due to atmospheric conditions and technical problems you are about to lose contact to an outpost on the planet.
-            You have only very little time to send a short message to the colonists in this outpost before all contact breaks off for potentially a long time.
-            The colonists in the outpost know about xeliherb and its importance. They know the costs associated with cultivation of ralocrop.
-            What they do not know is what your Science Team reported.
-            You cannot forward the original report.
-            Please type what you recall from the Science Team's report into the text box, so that the other colonists can make a decision like you did on their own!
+            Due to atmospheric conditions and technical problems you are forced to leave Xelifan-3 in a rush.
+            You should make sure that the information you received from the earlier colonists is not lost to whoever may come next.
+            Please write down what you recall from the earlier colonists message into the text box!
           </p>
           <!-- <p style="color: grey"> -->
           <!--   (You need to enter at least 20 characters of text to proceed.) -->
           <!-- </p> -->
-          <TextareaInput :response.sync="$magpie.measurements.reproduction" />
+          <TextareaInput :response.sync="$magpie.measurements.response" />
           <button
             v-if="
-              $magpie.measurements.reproduction
+              $magpie.measurements.response
             "
             @click="$magpie.saveAndNextScreen()"
           >
@@ -102,7 +95,8 @@
                    trialNR: i+2,
                    itemNr: trial.itemNr,
                    itemName: trial.itemName,
-                   condition: trial.condition
+                   condition: trial.condition,
+                   measure: 'reproduction'
             }"
           />
         </Slide>
@@ -119,6 +113,8 @@
 <script>
 import items from '../trials/items.csv';
 import _ from 'lodash';
+
+console.log("Hi, I'm Pilot 02b, now living in root!")
 
 export default {
   name: 'App',

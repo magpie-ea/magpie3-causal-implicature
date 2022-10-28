@@ -16,9 +16,6 @@
           <p>
             <strong>{{ trial.criticalSentence }}</strong>
           </p>
-          <p>
-            {{ trial.furtherContext }}
-          </p>
           <p><strong>Question:</strong> {{ trial.taskQuestion }}</p>
           <ForcedChoiceInput
             :response.sync="$magpie.measurements.response"
@@ -109,6 +106,8 @@
 <script>
 import items from '../trials/items.csv';
 import _ from 'lodash';
+
+console.log("Hi, I'm Pilot 01b!")
 
 export default {
   name: 'App',

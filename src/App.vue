@@ -1,8 +1,6 @@
 <template>
   <Experiment title="Decision-making experiment">
     <InstructionScreen :title="'Welcome'">
-      Hi, I'm root!
-
       In this short experiment you will first read a description about a
       fictitious context in which you are supposed to make an decision based on
       some information you received from others. Please read the context
@@ -121,8 +119,6 @@
 <script>
 import items from '../trials/items.csv';
 import _ from 'lodash';
-
-console.log("Hi, I'm root!")
 
 export default {
   name: 'App',

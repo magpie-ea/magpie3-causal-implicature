@@ -1,8 +1,6 @@
 <template>
   <Experiment title="Decision-making experiment">
     <InstructionScreen :title="'Welcome'">
-      Hi, I'm embedded (Pilot 2b)!
-
       In this short experiment you will first read a description about a
       fictitious context in which you are supposed to make an decision based on
       some information you received from others. Please read the context
@@ -122,7 +120,7 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-console.log("Hi, I'm embedded!")
+console.log("Hi, I'm Pilot 02a!")
 
 export default {
   name: 'App',

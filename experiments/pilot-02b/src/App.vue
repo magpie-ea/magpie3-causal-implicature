@@ -114,7 +114,7 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-console.log("Hi, I'm embedded!")
+console.log("Hi, I'm Pilot 02b!")
 
 export default {
   name: 'App',

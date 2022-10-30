@@ -85,7 +85,7 @@
           <p>
             Due to atmospheric conditions and technical problems you are forced to leave Xelifan-3 in a rush.
             You should make sure that the information you received from the earlier colonists is not lost to whoever may come next.
-            <strong>Please write down what you recall from the earlier colonists' message into the text box!</strong>
+            <strong>Please write down what you learned about the relation between ralocrop and xeliherb!</strong>
           </p>
           <!-- <p style="color: grey"> -->
           <!--   (You need to enter at least 20 characters of text to proceed.) -->
@@ -132,7 +132,7 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-console.log("Hi, I'm Pilot 02b, now living in root!")
+console.log("Hi, I'm Pilot 02c, currently living in root!")
 
 export default {
   name: 'App',
@@ -169,7 +169,9 @@ export default {
       // which generation is this
       var generation = this.$magpie.socket.generation;
 
-      var output = "A high yield of xeliherb is associated with the presence of ralocrop."
+      var seedTrigger = "A high yield of xeliherb is associated with the presence of ralocrop."
+
+      var output = seedTrigger
 
       // if we are in the first generation, we will return the defaultGuess for the item
       if (generation > 1) {
@@ -187,6 +189,7 @@ export default {
          // console.log(filteredData)
          // console.log(extractedRow)
          output = extractedRow == null ? null : extractedRow.response
+         output = output == "" ? seedTrigger : output
       }
 
       return( output )

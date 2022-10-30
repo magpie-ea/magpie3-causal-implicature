@@ -159,6 +159,10 @@ export default {
       console.log("generation: ", this.$magpie.socket.generation)
       var variant = this.$magpie.socket.variant
       this.guessingTrials = _.shuffle(_.filter(this.guessingTrials, {'variant' : variant}))
+      this.$magpie.addExpData({'variant': this.$magpie.socket.variant,
+                               'generation': this.$magpie.socket.generation,
+                               'chain': this.$magpie.socket.chain,
+                               'triggerMessage' : this.getPreviousResponse()})
     },
     getPreviousResponse: function(){
 
@@ -167,11 +171,8 @@ export default {
 
       var output = "A high yield of xeliherb is associated with the presence of ralocrop."
 
-      console.log("local generation", generation);
-
       // if we are in the first generation, we will return the defaultGuess for the item
       if (generation > 1) {
-        console.log("Generation > 1, check")
 
          // get information about the results from the last iteration from the socket
          var lastIterationResults = this.$magpie.socket.lastIterationResults;
@@ -183,8 +184,8 @@ export default {
 
          var filteredData = _.filter(lastIterationResults, function(o) {return o.measure == 'reproduction'})
          var extractedRow = filteredData[0]
-         console.log(filteredData)
-         console.log(extractedRow)
+         // console.log(filteredData)
+         // console.log(extractedRow)
          output = extractedRow == null ? null : extractedRow.response
       }
 

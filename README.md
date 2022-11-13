@@ -10,5 +10,15 @@ There are several kinds of (pilot) experiments here (see `experiments` folder):
   + pilot 2a: similar to 1b, but with slightly rephrased instructions; also includes additional reproduction task
     - N=33, more reproduction with 'causal language' when participants chose to cultivate both crops
   + pilot 2b & c: similar to 2a, but with actual iterated narration chains; unfortunately, flawed by insufficient understanding of participants regarding what to reproduce
+- *Pilot 3*: background description, choice and justification like in Pilot 1b; N = 161
+  + presented three different prompts:
+    1. [association]  "a high yield of xeliherb is associated with the presence of another plant called ralocrop"
+    2. [intervention] "a high yield of xeliherb was observed whenever another plant called ralocrop has been cultivated as well"
+    3. [observation]  "a high yield of xeliherb was observed whenever another plant called ralocrop was observed as well"
+  + adds two more trials:
+    - forced-choice select true statement about ralocrop
+    - forced-choice select what the science team said
+  + choice rates (single crop vs both) for all three prompts are indistinguishable (!?)
+
 
 Live version of the experiment [here](https://magpie-ea.github.io/magpie3-causal-implicature/).

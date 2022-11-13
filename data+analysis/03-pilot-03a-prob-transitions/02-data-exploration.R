@@ -13,6 +13,8 @@ d <- read_csv(
       )
   )
 
+d %>% pull(submission_id) %>% unique() %>% length()
+
 d <- d %>% 
   group_by(submission_id) %>% 
   mutate(exclude = any(response %in% c("Cultivation of ralocrop is easy and cheap.", "Ralocrop does not grow on Xelifan-3."))) %>%

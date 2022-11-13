@@ -152,7 +152,7 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-console.log("Hi, I'm Pilot 03a!")
+console.log("Hi, I'm Pilot 03a! I live in embedded positions.")
 
 export default {
   name: 'App',

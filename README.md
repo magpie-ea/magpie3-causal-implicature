@@ -19,6 +19,7 @@ There are several kinds of (pilot) experiments here (see `experiments` folder):
     - forced-choice select true statement about ralocrop
     - forced-choice select what the science team said
   + choice rates (single crop vs both) for all three prompts are indistinguishable (!?)
+- *Pilot 4*: instructions like 1b, but with free reproduction of /all/ information from the background vignette
 
 
 Live version of the experiment [here](https://magpie-ea.github.io/magpie3-causal-implicature/).

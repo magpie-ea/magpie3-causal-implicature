@@ -2,7 +2,7 @@
   <Experiment title="Decision-making experiment">
     <InstructionScreen :title="'Welcome'">
       In this short experiment you will first read a description about a
-      fictitious context in which you are supposed to make an decision based on
+      fictitious context in which you are supposed to make a decision based on
       some information you received from others. Please read the context
       information very carefully and make your decision deliberately.
       <p></p>
@@ -71,10 +71,9 @@
         <Slide>
           <p>
             There is also an outpost of your colonists on Xelifan-3.
-            Unfortunately, due to atmospheric conditions, communication is difficult.
-            You can only send a short message to the colonists in this outpost before all contact breaks off for potentially a long time.
+            Unfortunately, due to atmospheric conditions, you can only send one message to the people in this outpost before all contact breaks off for potentially a long time.
 
-            <strong>Tell the colonists all they need to know about xeliherb and ralocrop!</strong>
+            <strong>Tell the people in the outpost all they need to know about xeliherb and ralocrop!</strong>
 
           </p>
           <!-- <p style="color: grey"> -->

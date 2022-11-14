@@ -12,6 +12,10 @@ jobs:
     strategy:
       matrix:
         folder:
+          - experiments/pilot-01a
+          - experiments/pilot-01b
+          - experiments/pilot-02a
+          - experiments/pilot-02b
           - ./
 
     runs-on: ubuntu-latest

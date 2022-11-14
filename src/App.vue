@@ -73,7 +73,7 @@
             There is also an outpost of your colonists on Xelifan-3.
             Unfortunately, due to atmospheric conditions, you can only send one message to the people in this outpost before all contact breaks off for potentially a long time.
 
-            <strong>Tell the people in the outpost all they need to know about xeliherb and ralocrop!</strong>
+            <strong>Tell the people in the outpost all they need to know about xeliherb and ralocrop, what they are good for, and how they might be related, so that they can decide what to cultivate for themselves!</strong>
 
           </p>
           <!-- <p style="color: grey"> -->

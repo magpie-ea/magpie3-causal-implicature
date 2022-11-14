@@ -115,7 +115,7 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-console.log("Hi, I'm Pilot 04! I currently live in root.")
+console.log("Hi, I'm Pilot 04! I currently live in root. Excited to go live!")
 
 export default {
   name: 'App',

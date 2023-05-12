@@ -48,20 +48,18 @@
           <!-- </p> -->
           <TextareaInput :response.sync="$magpie.measurements.response" />
           <button
-            v-if="
-              $magpie.measurements.response
-            "
+            v-if="$magpie.measurements.response"
             @click="$magpie.saveAndNextScreen()"
           >
             Submit
           </button>
           <Record
             :data="{
-                   trialNR: i+1,
-                   itemNr: trial.itemNr,
-                   itemName: trial.itemName,
-                   condition: trial.condition,
-                   measure: 'justification'
+              trialNR: i + 1,
+              itemNr: trial.itemNr,
+              itemName: trial.itemName,
+              condition: trial.condition,
+              measure: 'justification'
             }"
           />
         </Slide>
@@ -71,10 +69,16 @@
         <Slide>
           <p>
             There is also an outpost of your colonists on Xelifan-3.
-            Unfortunately, due to atmospheric conditions, you can only send one message to the people in this outpost before all contact breaks off for potentially a long time.
+            Unfortunately, due to atmospheric conditions, you can only send one
+            message to the people in this outpost before all contact breaks off
+            for potentially a long time.
 
-            <strong>Tell the people in the outpost all they need to know about xeliherb and ralocrop, what they are good for, and how they might be related, so that they can decide what to cultivate for themselves!</strong>
-
+            <strong
+              >Tell the people in the outpost all they need to know about
+              xeliherb and ralocrop, what they are good for, and how they might
+              be related, so that they can decide what to cultivate for
+              themselves!</strong
+            >
           </p>
           <!-- <p style="color: grey"> -->
           <!--   (You need to enter at least 20 characters of text to proceed.) -->
@@ -82,9 +86,7 @@
           <TextareaInput :response.sync="$magpie.measurements.response" />
 
           <button
-            v-if="
-              $magpie.measurements.response
-            "
+            v-if="$magpie.measurements.response"
             @click="$magpie.saveAndNextScreen()"
           >
             Submit
@@ -92,22 +94,20 @@
 
           <Record
             :data="{
-                   trialNR: i+2,
-                   itemNr: trial.itemNr,
-                   itemName: trial.itemName,
-                   condition: trial.condition,
-                   measure: 'reproduction'
+              trialNR: i + 2,
+              itemNr: trial.itemNr,
+              itemName: trial.itemName,
+              condition: trial.condition,
+              measure: 'reproduction'
             }"
           />
         </Slide>
       </Screen>
-
     </template>
 
     <PostTestScreen />
 
     <SubmitResultsScreen />
-
   </Experiment>
 </template>
 
@@ -115,7 +115,7 @@
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-console.log("Hi, I'm Pilot 04! I currently live in root. Excited to go live!")
+console.log("Hi, I'm Pilot 04! I currently live in root. Excited to go live!");
 
 export default {
   name: 'App',

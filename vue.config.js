@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = {                                                                                                                                                               7ms 
   configureWebpack: {
     module: {
       rules: [
@@ -26,3 +26,4 @@ module.exports = {
           __dirname.substring(process.env.GITHUB_WORKSPACE.length)
           : '/'
 };
+

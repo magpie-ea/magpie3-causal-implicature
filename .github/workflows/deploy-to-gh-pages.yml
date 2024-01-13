@@ -8,11 +8,8 @@ on:
 
 jobs:
   build-and-deploy:
-    concurrency:
-      group: deploy_jobs
-      cancel-in-progress: false
-
     strategy:
+      max-parallel: 1
       matrix:
         folder:
           - experiments/pilot-01a/

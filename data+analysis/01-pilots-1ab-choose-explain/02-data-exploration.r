@@ -180,8 +180,8 @@ evaluate_fit_joint <- function(fit) {
 d1 <- load_wrangle_data('01-raw-data-pilot-1a.csv', '01-wrangled-data-pilot-1a.csv', 'pilot-1a')
 d2 <- load_wrangle_data('01-raw-data-pilot-1b.csv', '01-wrangled-data-pilot-1b.csv', 'pilot-1b')
 
-make_barplot(d1, "Pilot 1a: w/o mentioning costs")
-make_barplot(d2, "Pilot 1b: w/ explicit costs")
+make_barplot(d1, "w/o mentioning costs")
+make_barplot(d2, "w/ explicit costs")
 
 fit1 <- run_regression_single(d1)
 fit2 <- run_regression_single(d2)

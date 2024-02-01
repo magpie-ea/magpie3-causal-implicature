@@ -8,11 +8,16 @@ on:
 
 jobs:
   build-and-deploy:
-
     strategy:
+      max-parallel: 1
       matrix:
         folder:
-          - ./
+          - experiments/pilot-01a/
+          - experiments/pilot-01b/
+          - experiments/pilot-02a/
+          - experiments/pilot-02b/
+          - experiments/pilot-02c/
+          - experiments/pilot-03a/
 
     runs-on: ubuntu-latest
     steps:

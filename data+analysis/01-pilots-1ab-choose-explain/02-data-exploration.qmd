@@ -56,7 +56,7 @@ Two pilot studies were run to test whether a statement like "X is associated wit
 
 N=200 participants recruited via Prolific (English Native, at least 10 previous studies, at least 90% approval rate). For technical reasons, N=`r d1$submission_id %>% unique() %>% length()` data sets were received for pilot 1a, and N=`r d2$submission_id %>% unique() %>% length()` for pilot 1b. Participants took about `r round((d2$experiment_duration %>% mean()) /60000, 2)` for pilot 1a, and about `r round((d2$experiment_duration %>% mean()) /60000, 2)` minutes for pilot 1b on average. They were paid 0.4 British Pounds.
 
-The experiment code, data an material are [available online](https://github.com/magpie-ea/magpie3-causal-implicature). A live version of the experiment can be tested [here](https://magpie-ea.github.io/magpie3-causal-implicature/).
+The experiment code, data and material are [available online](https://github.com/magpie-ea/magpie3-causal-implicature). A live version of the experiment can be tested [here](https://magpie-ea.github.io/magpie3-causal-implicature/).
 
 The experimental material consisted of four different conditions of which each participant saw exactly one (between-subject design). The critical trial involved a binary forced choice, see Figure @fig-screenshot-trial.
 
@@ -123,6 +123,11 @@ plot2 <- make_barplot(d2, "Pilot 1b: w/ explicit costs")
 
 plot1
 plot2
+
+ggplot2::ggsave(plot = plot1 + xlab("") + ylab("") + ggtitle(""), 
+                filename = "results-Exp1a-barplot.pdf", width= 8, height = 5, scale=0.7)
+ggplot2::ggsave(plot = plot2 + xlab("") + ylab("") + ggtitle(""), 
+                filename = "results-Exp1b-barplot.pdf", width= 8, height = 5, scale=0.7)
 
 ```
 
@@ -259,12 +264,17 @@ evaluate_fit <- function(fit) {
 }
 
 knitr::kable(evaluate_fit(fit1))
+
+xtable::xtable(evaluate_fit(fit1))
+
 ```
 
 For the data from Pilot 1b, the results look as follows:
 
 ```{r}
 knitr::kable(evaluate_fit(fit2))
+
+xtable::xtable(evaluate_fit(fit2))
 ```
 
 In sum, we find the following critical results forall three cases (data combined, only data from Pilot 1a, only data from Pilot 1b): the choice of "BOTH" is credibly higher in the **association** condition than in the **deniedCausation** condition, and it is *not* credibly different from those in the **intervention** condition.

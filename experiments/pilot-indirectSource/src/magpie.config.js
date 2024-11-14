@@ -1,10 +1,10 @@
 export default {
-  experimentId: '98',
-  serverUrl: 'https://mcmpact.ikw.uni-osnabrueck.de/magpie/',
-  socketUrl: 'wss://mcmpact.ikw.uni-osnabrueck.de/magpie/socket',
+  experimentId: '4',
+  serverUrl: 'https://magpie-cogsciprag.fly.dev',
+  socketUrl: 'wss://magpie-cogsciprag.fly.dev/socket',
   completionUrl: 'https://app.prolific.co/submissions/complete?cc=C13NOKGZ',
-  contactEmail: 'mchfranke@gmail.com',
+  contactEmail: 'hening.wang@outlook.com',
   // Either 'debug', 'directLink' or 'prolific'
-  mode: 'debug',
+  mode: 'directLink',
   language: 'en'
 };

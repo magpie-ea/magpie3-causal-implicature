@@ -109,8 +109,8 @@ While navigating the challenges of life on Xelifan-3, a breakthrough occurs. One
               itemNr: trial.itemNr,
               itemName: trial.itemName,
               condition: trial.condition,
-              source: source,
-              listenerTyp: listenerTyp,
+              informationSource: trial.F1_informationSource,
+              listenerRole: trial.F2_listenerRole,
               attentionCheckResult: $magpie.measurements.attentionCheck === correctAnswers[trial.F2_listenerRole]
             }"
           />

@@ -157,9 +157,6 @@ While navigating the challenges of life on Xelifan-3, a breakthrough occurs. A m
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
-var listenerTyp = _.sample(["colonist","scientist"])
-var source = _.sample(["direct","indirect"])
-
 console.log("Hi, I'm Pilot 04! I currently live in root. Excited to go live!");
 
 export default {
@@ -169,9 +166,7 @@ export default {
     //return { items: items.slice(0, 1) };
     return { //items: items,
       items: _.shuffle(items).slice(0, 1),
-    listenerTyp: listenerTyp,
     selectedTrial: null,
-    source: source,
     correctAnswers: {
         colonist:'Ensure that there is a steady supply of Xeliherb to meet daily survival needs',
         scientist: 'Gather data to uncover patterns in Xeliherb growth that could inform future research'

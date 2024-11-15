@@ -92,11 +92,11 @@
          <Slide v-if="trial.F1_informationSource === 'indirect'">
           Now, it is time to make a decision.
 <br><br>
-While navigating the challenges of life on Xelifan-3, a breakthrough occurs. One evening, a weathered journal is found in the ruins of an old research outpost, a relic from a science team that explored the planet decades ago. The journal is fragile and faded, but its contents are shocking. <strong>It claims:</strong>
+While navigating the challenges of life on Xelifan-3, a breakthrough occurs. One evening, a weathered journal is found in the ruins of an old research outpost, a relic from a science team that explored the planet decades ago. The journal is fragile and faded, but its contents are shocking. Here is <strong>what the science team wrote in their journal</strong>:
 <br><br>
 <strong>The presence of Xeliherb is associatied with another plant called Ralocrop.</strong>
 <br><br>
-<strong>Question: How likely are you to cultivate additional Ralocrop?</strong> 
+<strong>Question:</strong> How likely are you to cultivate additional Ralocrop?
           <SliderInput
             left="very unlikely"
             right="very likely"
@@ -119,11 +119,11 @@ While navigating the challenges of life on Xelifan-3, a breakthrough occurs. One
          <Slide v-if="trial.F1_informationSource === 'direct'">
           Now, it is time to make a decision.
 <br><br>
-While navigating the challenges of life on Xelifan-3, a breakthrough occurs. A member of your supporting science team, stationed at a remote research facility, shares an urgent discovery. Here is what they sent:
+While navigating the challenges of life on Xelifan-3, a breakthrough occurs. A member of your supporting science team, stationed at a remote research facility, shares an urgent discovery. Here is <strong>what the science team messaged to you</strong>:
 <br><br>
 <strong>The presence of Xeliherb is associatied with another plant called Ralocrop.</strong>
 <br><br>
-<strong>Question: How likely are you to cultivate additional Ralocrop?</strong> 
+<strong>Question:</strong> How likely are you to cultivate additional Ralocrop?
           <SliderInput
             left="very unlikely"
             right="very likely"

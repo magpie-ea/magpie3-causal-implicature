@@ -29,6 +29,6 @@ Pilot 2 attempted iterated narration chains but failed (technical reasons, parti
   + hand-coded reproduction -> shows a abundance of "causal language" especially for "causal responders"
 - *Pilot-indirectSource*: Method: slider rating
 
-We manipulate two factors relevant to interpreting causal information: **listener type**, which includes *"colonists"* and *"scientists"*, and **information source**, which includes *"indirect"* and *"direct"*. Participants are then asked whether they perform an intervention after hearing the information, as this signals a strong causal interpretation​⬤
+    + We manipulate two factors relevant to interpreting causal information: **listener type**, which includes *"colonists"* and *"scientists"*, and **information source**, which includes *"indirect"* and *"direct"*. Participants are then asked whether they perform an intervention after hearing the information, as this signals a strong causal interpretation​.
 
 Live version of the experiment [here](https://magpie-ea.github.io/magpie3-causal-implicature/).

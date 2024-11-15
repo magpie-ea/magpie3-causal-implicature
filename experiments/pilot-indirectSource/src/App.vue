@@ -37,7 +37,7 @@
          <!-- ************************************ -->
           <Slide v-if="trial.F2_listenerRole === 'colonist'">
           <p>
-            You are one of the colonists, part of a determined group that has braved the unknown to settle on Xelifan-3 in search of a new beginning.
+            You are one of the <strong>colonists</strong>, part of a determined group that has braved the unknown to settle on Xelifan-3 in search of a new beginning.
           </p>
           <p>
             For the colony, survival depends on securing enough Xeliherb to meet daily needs. Living on the frontlines, you’re closely connected to the land, and every bit of Xeliherb collected is crucial. Your work revolves around locating new patches, gathering as much Xeliherb as possible, and ensuring a steady supply to support the community. The immediate priority is clear: there must be more Xeliherb.
@@ -52,7 +52,7 @@
           <p>
             <strong>
               As a {{ trial.F2_listenerRole === "scientist" ? "scientist" : "colonist" }}, 
-              what is one of your main objectives in working with the colonists? 
+              what is one of your main objectives in working with the {{ trial.F2_listenerRole === "scientist" ? "colonists" : "scientists" }}? 
               (Please select one correct answer)
             </strong>
           </p>
@@ -92,7 +92,7 @@
          <Slide v-if="trial.F1_informationSource === 'indirect'">
           Now, it is time to make a decision.
 <br><br>
-While navigating the challenges of life on Xelifan-3, a breakthrough occurs. One evening, a weathered journal is found in the ruins of an old research outpost, a relic from a science team that explored the planet decades ago. The journal is fragile and faded, but its contents are shocking. It claims:
+While navigating the challenges of life on Xelifan-3, a breakthrough occurs. One evening, a weathered journal is found in the ruins of an old research outpost, a relic from a science team that explored the planet decades ago. The journal is fragile and faded, but its contents are shocking. <strong>It claims:</strong>
 <br><br>
 <strong>The presence of Xeliherb is associatied with another plant called Ralocrop.</strong>
 <br><br>

@@ -52,7 +52,7 @@
           <p>
             <strong>
               As a {{ trial.F2_listenerRole === "scientist" ? "scientist" : "colonist" }}, 
-              what is one of your main objectives in working with the colonists? 
+              what is one of your main objectives in working with the {{ trial.F2_listenerRole === "scientist" ? "colonists" : "scientists" }}? 
               (Please select one correct answer)
             </strong>
           </p>

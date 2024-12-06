@@ -8,4 +8,3 @@ export default {
   mode: 'directlink',
   language: 'en'
 };
-‚

@@ -5,6 +5,7 @@ export default {
   completionUrl: 'https://app.prolific.com/submissions/complete?cc=CHFFTKHZ',
   contactEmail: 'hening.wang@outlook.com',
   // Either 'debug', 'directLink' or 'prolific'
-  mode: 'debug',
+  mode: 'directlink',
   language: 'en'
 };
+‚

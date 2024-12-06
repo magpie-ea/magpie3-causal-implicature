@@ -1,0 +1,9 @@
+Now, it is time to make a decision.
+<br><br>
+After months of surviving the hostile environment of Xelifan-3, you and your fellow collegues receive a mysterious discovery. One evening, a weathered journal is found in the ruins of an old research outpost, a relic from a science team that explored the planet decades ago. The journal is fragile and faded, but its contents are shocking. It claims:
+<br><br>
+<strong>The presence of Xeliherb is associatied with another plant called Ralocrop.</strong>
+<br><br>
+Do you trust the words of a lost science team, written in a time long past, and act on this information? Or do you continue relying on the methods that have kept the colony alive so far, unsure if the connection between xeliherb and ralocrop is real?
+<br><br>
+<strong>Question: How likely are going to looking for more Ralocrop? Your decision will shape the colony’s future.</strong> 

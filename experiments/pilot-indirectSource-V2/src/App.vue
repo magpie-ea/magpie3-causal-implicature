@@ -12,12 +12,12 @@
 
     <template v-for="(trial, i) of items">
     <!-- ************************************ -->
-      <Screen label="background">
+      <Screen label="background" title="Deep-Space Colonization">
     <div>
       <p>
-        <strong>Background:</strong> Far into the future, humankind is starting to populate deep space. <br>
-        A powerful herb, called <strong>Xeliherb</strong>, has become vital for human survival and technological advancement. <br>
-        However, <strong>Xeliherb</strong> grows only sparsely on some far-out planets, making survival in deep space a constant struggle.
+        Far into the future, humankind has started to populate deep space.
+        A powerful herb, called <strong>Xeliherb</strong>, has become <strong>vital for human survival</strong> and technological advancement.
+        However, Xeliherb <strong>grows only sparsely</strong> on some far-out planets, making survival in deep space a constant struggle.
       </p>
       <!-- Add the image -->
       <img src="../pictures/background.png" alt="Background image" />
@@ -26,10 +26,10 @@
     <button @click="$magpie.nextScreen();">Next</button>
   </Screen>
   <!-- ************************************ -->
-  <Screen label="earlydays">
+  <Screen label="earlydays" title="The Early Days">
     <div>
       <p>
-        <strong>Early days:</strong> In the early days of deep space colonization, humans have relied on finding naturally growing <strong>Xeliherb</strong>.
+        In the early days of deep space colonization, humans have relied on <strong>finding naturally growing Xeliherb</strong>.
         Dedicated <strong>Science Teams for Localization</strong> accumulated evidence for where to locate the precious, but fragile and hard-to-discover plant.
       </p>
       <!-- Add the image -->
@@ -39,11 +39,11 @@
     <button @click="$magpie.nextScreen();">Next</button>
   </Screen>
   <!-- ************************************ -->
-  <Screen label="presentdays">
+  <Screen label="presentdays" title="The Present Times">
     <div>
       <p>
-        <strong>Present days:</strong> While the discovery of naturally growing <strong>Xeliherb</strong> is still important, farmers have started successfully cultivating <strong>Xeliherb</strong> in controlled environments as well. 
-        Still, the herb proves difficult to cultivate, so that dedicated <strong>Science Teams for Cultivation</strong>  investigate the causal factors influencing the yield of <strong>Xeliherb</strong> farming. 
+        While the discovery of naturally growing Xeliherb is still important, farmers have <strong>started successfully cultivating Xeliherb</strong> in controlled environments as well.
+        Still, the herb proves difficult to cultivate, so that dedicated <strong>Science Teams for Cultivation</strong>  investigate how best to optimize the yield of Xeliherb farming.
       </p>
       <!-- Add the image -->
       <img src="../pictures/presentdays.png" alt="presentdays image" />
@@ -52,11 +52,15 @@
     <button @click="$magpie.nextScreen();">Next</button>
   </Screen>
   <!-- ************************************ -->
-  <Screen label="yourrole">
+  <Screen label="yourrole" title="Your Role">
     <div>
       <p>
-        <strong>Your role:</strong> You are leading a farming station for cultivating Xeliherb. 
-        Your job is to decide how best to maximize the yield in the next farming cycle. 
+        You are leading a farming station for cultivating Xeliherb.
+        Your job is to decide how best to maximize the yield of Xeliherb in the next farming cycle.
+        You are currently thinking about experimenting with additionally cultivating a small amount of other deep-space herbs together with Xeliherb, such as <strong>Diaxone or Ralocrop</strong>.
+        Presently, this is a total shot in the dark.
+        You have no evidence so far that this might be effective.
+        The problem is that <strong>cultivating Diaxone or Ralocrop is very costly</strong> in terms of precious resources and may even reduce the yield of Xeliherb.
       </p>
       <!-- Add the image -->
       <img src="../pictures/yourrole.png" alt="presentdays image" />
@@ -65,14 +69,11 @@
     <button @click="$magpie.nextScreen();">Next</button>
   </Screen>
   <!-- ************************************ -->
-  <Screen :key="i">
+  <Screen :key="i" title="Check Your Knowledge">
   <Slide v-if="trial">
           <p>
-            <strong>
-              Two science teams are working on different objectives related to Xeliherb. Based on what you've read, what is the key objective of 
-              <strong> {{ trial.F1_informationSource === "indirect" ? "the Science Team for Localization" : "the Science Team for Cultivation" }} </strong>? 
-              (Please select one correct answer)
-            </strong>
+              Two Science Teams are working on different objectives related to Xeliherb. Based on what you've read, what is the key objective of
+              <strong> {{ trial.F1_informationSource === "indirect" ? "the Science Team for Localization" : "the Science Team for Cultivation" }} </strong>?
           </p>
 
           <MultipleChoiceInput
@@ -95,7 +96,7 @@
 
             <button 
               v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]" 
-              @click="$magpie.nextSlide()">
+              @click="$magpie.nextScreen()">
               Next
             </button>
             
@@ -106,41 +107,12 @@
             </button>
           </div>
         </Slide>
-    
-          <!-- ************************************ -->
-           <!-- ************************************ -->
-    <Slide v-if="trial.F1_informationSource === 'indirect'">
-    <p>
-    <strong>Your information:</strong> You found an old precious journal from a <strong>Science Teams for Localization</strong> from the early days who made a very interesting discovery. 
-    The journal states: <br>
-    <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
-    </p>
-    <!-- Add the image -->
-    <img src="../pictures/infoindirect.png" alt="infoindirect image" />
-    <button @click="$magpie.nextSlide();">Next</button>
-  </Slide>
-         <!-- ************************************ -->
-               <!-- ************************************ -->
-    <Slide v-if="trial.F1_informationSource === 'direct'">
-    <p>
-    <strong>Your information:</strong> You received a recent report from a <strong>Science Teams for Cultivation</strong> who made a very interesting discovery.  
-    The report states: <br>
-    <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
-    </p>
-    <!-- Add the image -->
-    <img src="../pictures/infodirect.png" alt="infodirect image" />
-    <button @click="$magpie.nextSlide();">Next</button>
-  </Slide>
+  </Screen>
+  <Screen :key="i" title="Your Preliminary Decision">
          <!-- ************************************ -->
          <Slide>
-          <strong>Your decision:</strong> Based on the
-          <strong> {{ trial.F1_informationSource === "indirect" ? "journal entry from the Science Team for Localization" : "report from the Science Team for Cultivation" }} </strong> which stated that:
+          Without any further information, and taking into account the fact that cultivation of additional herbs is costly in terms of resources, <strong>how likely is it that you would cultivate Ralocrop in addition to Xeliherb in the next farming cycle?</strong>
             <br><br>
-            <strong>"A high volume of Xeliherb is associated with the presence of Ralocrop."</strong>
-            <br><br>
-            <strong>Question:</strong> How likely are you to cultivate additional Ralocrop?
-            <br>
-            Notice that Ralocrop is another herb, which is expensive to cultivate in addition to Xeliherb.
           <SliderInput
             left="very unlikely"
             right="very likely"
@@ -152,13 +124,69 @@
               trialNR: i,
               itemNr: trial.itemNr,
               itemName: trial.itemName,
+              condition: 'without_info',
+              informationSource: trial.F1_informationSource,
+              attentionCheckResult: $magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]
+            }"
+          />
+        </Slide>
+  <!-- ************************************ -->
+  </Screen>
+  <!-- ************************************ -->
+  <Screen :key="i" title="New Information">
+           <!-- ************************************ -->
+    <Slide v-if="trial.F1_informationSource === 'indirect'">
+    <p>
+    Coincidentally, you found an old journal from a <strong>Science Teams for Localization</strong> from the early days.
+    Some scientists interested in localizing Xeliherb took the following note for themselves: <br>
+    <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
+    </p>
+    <!-- Add the image -->
+    <img src="../pictures/infoindirect.png" alt="infoindirect image" />
+    <button @click="$magpie.nextSlide();">Next</button>
+  </Slide>
+         <!-- ************************************ -->
+               <!-- ************************************ -->
+    <Slide v-if="trial.F1_informationSource === 'direct'">
+    <p>
+    You received a recent report from a <strong>Science Teams for Cultivation</strong> who made a very interesting discovery.
+    The report states: <br>
+    <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
+    </p>
+    <!-- Add the image -->
+    <img src="../pictures/infodirect.png" alt="infodirect image" />
+    <button @click="$magpie.nextScreen();">Next</button>
+  </Slide>
+  </Screen>
+  <!-- ************************************ -->
+  <Screen :key="i" title="Your Final Decision">
+         <!-- ************************************ -->
+         <Slide>
+          Now that you have additional information from the
+          <strong> {{ trial.F1_informationSource === "indirect" ? "journal entry from the Science Team for Localization" : "report from the Science Team for Cultivation" }} </strong> which stated that:
+            <br><br>
+            <strong>"A high volume of Xeliherb is associated with the presence of Ralocrop."</strong>
+            <br><br>
+            how likely are you to cultivate Ralocrop in addition to Xeliherb in the next cycle?
+          <SliderInput
+            left="very unlikely"
+            right="very likely"
+            :response.sync= "$magpie.measurements.probs" />
+            {{$magpie.measurements.probs}}%
+            <button v-if="$magpie.measurements.probs" @click="$magpie.saveAndNextScreen();">Submit</button>
+          <Record
+            :data="{
+              trialNR: i,
+              itemNr: trial.itemNr,
+              itemName: trial.itemName,
+              condition: 'with_info',
               informationSource: trial.F1_informationSource,
               attentionCheckResult: $magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]
             }"
           />
         </Slide>  
-        <!-- ************************************ -->
-      </Screen>
+  <!-- ************************************ -->
+  </Screen>
     </template>
     <PostTestScreen />
 

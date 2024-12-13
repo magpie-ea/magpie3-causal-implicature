@@ -80,33 +80,36 @@
             :response.sync="$magpie.measurements.attentionCheck"
             :randomize="true"
             :options="[
-              'Focuses on the ecological impact of Xeliherb farming.', 
-              'Focuses on medical applications of Xeliherb.', 
-              'Investigates where naturally growing Xeliherb can be found.', 
-              'Studies how to improve the yield of cultivated Xeliherb.'
+              'Uncover the ecological impact of Xeliherb farming.', 
+              'Understand the medical applications of Xeliherb.', 
+              'Investigate where naturally growing Xeliherb can be found.', 
+              'Find out how to improve the yield of cultivated Xeliherb.'
             ]" 
           />
-          <div v-if="$magpie.measurements.attentionCheck !== undefined">
-            <p v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]">
-              Correct answer! 
-            </p>
-            <p v-else>
-              Please review your objectives again!
-            </p>
-
-            <button 
-              v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]" 
-              @click="$magpie.nextScreen()">
-              Next
-            </button>
-            
-            <button 
-              v-else 
-              @click="$magpie.nextScreen('background')">
-              Read again.
-            </button>
-          </div>
+          <button @click="$magpie.nextSlide();">Submit your answer.</button>
         </Slide>
+    <Slide v-if="trial">
+      <div v-if="$magpie.measurements.attentionCheck !== undefined">
+              <p v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]">
+                Nice, correct answer! 
+              </p>
+              <p v-else>
+                Wrong anwser. Please review your objectives again!
+              </p>
+
+              <button 
+                v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]" 
+                @click="$magpie.nextScreen()">
+                Next
+              </button>
+              
+              <button 
+                v-else 
+                @click="$magpie.nextScreen('background')">
+                Read again.
+              </button>
+            </div>
+    </Slide>
   </Screen>
   <Screen :key="i" title="Your Preliminary Decision">
          <!-- ************************************ -->
@@ -116,21 +119,21 @@
           <SliderInput
             left="very unlikely"
             right="very likely"
-            :response.sync= "$magpie.measurements.probs" />
-            {{$magpie.measurements.probs}}%
-            <button v-if="$magpie.measurements.probs" @click="$magpie.saveAndNextScreen();">Submit</button>
-          <Record
+            :response.sync= "$magpie.measurements.decision1" />
+            {{$magpie.measurements.decision1}}%
+            <button v-if="$magpie.measurements.decision1" @click="$magpie.saveAndNextScreen();">Submit</button>
+            <Record
             :data="{
               trialNR: i,
               itemNr: trial.itemNr,
               itemName: trial.itemName,
-              condition: 'without_info',
+              condition: 'with_info',
               informationSource: trial.F1_informationSource,
-              attentionCheckResult: $magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]
+              decision1: $magpie.measurements.decision1,
+              decision2: $magpie.measurements.decision2
             }"
           />
         </Slide>
-  <!-- ************************************ -->
   </Screen>
   <!-- ************************************ -->
   <Screen :key="i" title="New Information">
@@ -143,7 +146,7 @@
     </p>
     <!-- Add the image -->
     <img src="../pictures/infoindirect.png" alt="infoindirect image" />
-    <button @click="$magpie.nextSlide();">Next</button>
+    <button @click="$magpie.nextScreen();">Next</button>
   </Slide>
          <!-- ************************************ -->
                <!-- ************************************ -->
@@ -153,7 +156,6 @@
     The report states: <br>
     <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
     </p>
-    <!-- Add the image -->
     <img src="../pictures/infodirect.png" alt="infodirect image" />
     <button @click="$magpie.nextScreen();">Next</button>
   </Slide>
@@ -171,9 +173,9 @@
           <SliderInput
             left="very unlikely"
             right="very likely"
-            :response.sync= "$magpie.measurements.probs" />
-            {{$magpie.measurements.probs}}%
-            <button v-if="$magpie.measurements.probs" @click="$magpie.saveAndNextScreen();">Submit</button>
+            :response.sync= "$magpie.measurements.decision2" />
+            {{$magpie.measurements.decision2}}%
+            <button v-if="$magpie.measurements.decision2" @click="$magpie.saveAndNextScreen();">Submit</button>
           <Record
             :data="{
               trialNR: i,
@@ -181,7 +183,8 @@
               itemName: trial.itemName,
               condition: 'with_info',
               informationSource: trial.F1_informationSource,
-              attentionCheckResult: $magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]
+              decision1: $magpie.measurements.decision1,
+              decision2: $magpie.measurements.decision2
             }"
           />
         </Slide>  
@@ -197,6 +200,7 @@
 
 <script>
 
+import { Screen } from 'magpie-base';
 import items from '../trials/items.csv';
 import _ from 'lodash';
 
@@ -211,8 +215,8 @@ export default {
       items: _.shuffle(items).slice(0, 1),
     selectedTrial: null,
     correctAnswers: {
-        indirect:'Investigates where naturally growing Xeliherb can be found.',
-        direct: 'Studies how to improve the yield of cultivated Xeliherb.'
+        indirect:'Investigate where naturally growing Xeliherb can be found.',
+        direct: 'Find out how to improve the yield of cultivated Xeliherb.'
       },
       showFeedback: false,
       feedbackMessage: '',

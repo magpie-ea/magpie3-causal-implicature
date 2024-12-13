@@ -1,5 +1,3 @@
-itemNr;itemName;F1_informationSource;F2_listenerRole;condition
-1;spaceColony;direct;scientist;direct_scientist
-2;spaceColony;indirect;scientist;indirect_scientist
-3;spaceColony;direct;colonist;direct_colonist
-4;spaceColony;indirect;colonist;direct_colonist
+itemNr;itemName;F1_informationSource
+1;spaceColony;direct
+2;spaceColony;indirect

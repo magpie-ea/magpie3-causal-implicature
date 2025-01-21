@@ -12,13 +12,13 @@ jobs:
       max-parallel: 1
       matrix:
         folder:
-          - experiments/pilot-01a/
-          - experiments/pilot-01b/
-          - experiments/pilot-02a/
-          - experiments/pilot-02b/
-          - experiments/pilot-02c/
-          - experiments/pilot-03a/
-          - experiments/pilot-indirectSource/
+          # - experiments/pilot-01a/
+          # - experiments/pilot-01b/
+          # - experiments/pilot-02a/
+          # - experiments/pilot-02b/
+          # - experiments/pilot-02c/
+          # - experiments/pilot-03a/
+          # - experiments/pilot-indirectSource/
           - experiments/pilot-indirectSource-V2/
 
     runs-on: ubuntu-latest

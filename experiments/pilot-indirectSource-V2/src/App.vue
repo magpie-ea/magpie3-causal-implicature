@@ -82,7 +82,7 @@
             :options="[
               'Uncover the ecological impact of Xeliherb farming.', 
               'Understand the medical applications of Xeliherb.', 
-              'Investigate where naturally growing Xeliherb can be found.', 
+              'Investigate where to find more naturally growing Xeliherb.', 
               'Find out how to improve the yield of cultivated Xeliherb.'
             ]" 
           />
@@ -122,17 +122,7 @@
             :response.sync= "$magpie.measurements.decision1" />
             {{$magpie.measurements.decision1}}%
             <button v-if="$magpie.measurements.decision1" @click="$magpie.saveAndNextScreen();">Submit</button>
-            <Record
-            :data="{
-              trialNR: i,
-              itemNr: trial.itemNr,
-              itemName: trial.itemName,
-              condition: 'with_info',
-              informationSource: trial.F1_informationSource,
-              decision1: $magpie.measurements.decision1,
-              decision2: $magpie.measurements.decision2
-            }"
-          />
+            
         </Slide>
   </Screen>
   <!-- ************************************ -->
@@ -173,7 +163,8 @@
           <SliderInput
             left="very unlikely"
             right="very likely"
-            :response.sync= "$magpie.measurements.decision2" />
+            :response.sync= "$magpie.measurements.decision2" 
+            />
             {{$magpie.measurements.decision2}}%
             <button v-if="$magpie.measurements.decision2" @click="$magpie.saveAndNextScreen();">Submit</button>
           <Record
@@ -181,7 +172,6 @@
               trialNR: i,
               itemNr: trial.itemNr,
               itemName: trial.itemName,
-              condition: 'with_info',
               informationSource: trial.F1_informationSource,
               decision1: $magpie.measurements.decision1,
               decision2: $magpie.measurements.decision2
@@ -215,7 +205,7 @@ export default {
       items: _.shuffle(items).slice(0, 1),
     selectedTrial: null,
     correctAnswers: {
-        indirect:'Investigate where naturally growing Xeliherb can be found.',
+        indirect:'Investigate where to find more naturally growing Xeliherb.',
         direct: 'Find out how to improve the yield of cultivated Xeliherb.'
       },
       showFeedback: false,

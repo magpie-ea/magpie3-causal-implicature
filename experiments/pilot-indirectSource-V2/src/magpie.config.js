@@ -2,9 +2,9 @@ export default {
   experimentId: '5',
   serverUrl: 'https://magpie-cogsciprag.fly.dev',
   socketUrl: 'wss://magpie-cogsciprag.fly.dev/socket',
-  completionUrl: 'https://app.prolific.com/submissions/complete?cc=CHFFTKHZ',
+  completionUrl: 'https://app.prolific.com/submissions/complete?cc=CMSWACGF',
   contactEmail: 'hening.wang@outlook.com',
   // Either 'debug', 'directLink' or 'prolific'
-  mode: 'debug',
+  mode: 'directLink',
   language: 'en'
 };

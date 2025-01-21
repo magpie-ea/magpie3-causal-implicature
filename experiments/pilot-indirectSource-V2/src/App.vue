@@ -122,7 +122,16 @@
             :response.sync= "$magpie.measurements.decision1" />
             {{$magpie.measurements.decision1}}%
             <button v-if="$magpie.measurements.decision1" @click="$magpie.saveAndNextScreen();">Submit</button>
-            
+            <Record
+            :data="{
+              trialNR: i,
+              itemNr: trial.itemNr,
+              itemName: trial.itemName,
+              informationSource: trial.F1_informationSource,
+              decision1: $magpie.measurements.decision1,
+              decision2: $magpie.measurements.decision2
+            }"
+          />
         </Slide>
   </Screen>
   <!-- ************************************ -->

@@ -1,0 +1,171 @@
+---
+title: "Analysis Script Pilot Indirect Source v1"
+author: "Hening Wang"
+date: "2024-11-18"
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+Supress messages in this document so that the output is cleaner
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+Import packages.
+```{r}
+rm(list = ls())
+
+options(warn = -1)
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(ggplot2)
+library(aida)
+```
+
+Set up theme for ggplot.
+
+```{r}
+theme_set(theme_aida())
+
+##################################################
+## CSP-colors
+##################################################
+CSP_colors = c(
+  "#7581B3", "#99C2C2", "#C65353", "#E2BA78", "#5C7457", "#575463",
+  "#B0B7D4", "#66A3A3", "#DB9494", "#D49735", "#9BB096", "#D4D3D9",
+  "#414C76", "#993333"
+  )
+# setting theme colors globally
+scale_colour_discrete <- function(...) {
+  scale_colour_manual(..., values = CSP_colors)
+}
+scale_fill_discrete <- function(...) {
+  scale_fill_manual(..., values = CSP_colors)
+}
+```
+
+# Data Import & Preprocessing
+
+Import data
+
+```{r}
+data <- read.csv("../data/results.csv")
+```
+
+Merge decision1 and decision2 into one row by the same submission id
+```{r}
+data <- data %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+```
+
+Factorise variables: id, item, informationSource, listenerRole
+
+```{r}
+data$id <- as.factor(1:nrow(data))
+data$informationSource <- as.factor(data$informationSource)
+```
+
+.
+
+
+Recruitment criteria: 1. English native speakers 2. Approval rate \> 90%
+3. Completion \> 5 times 4. Not included in the prior studies of
+CommuniCause
+
+# Plots
+
+## A histogram showing the distribution of probs. 
+**Interpretation: Data is left-skewed.**
+
+```{r}
+ggplot(data, aes(x = update)) +
+  geom_histogram(binwidth = 5, fill = CSP_colors[1]) +
+  labs(title = "Distribution of updated probs",
+       x = "Updated probs.",
+       y = "Frequency")
+
+```
+
+## Plot the dependent variable "probs" against conditions.
+
+**Interpretation:**
+
+Hi Michael,
+
+I've conducted a pilot with our new design with 40 pps. The sample size is unbalanced: N(direct) = 23, N(indirect) = 17. The results are as follows:
+
+1. The updated probs are higher than 0 in both conditions (p < 0.001). Interpretation: This indicates that participants used the new association sentence as supporting evidence to strengthen their initial belief that intervening on a cause would result in a greater effect.
+
+2. The updated probs are higher in the direct condition than in the indirect condition. A one slide t-test is marginally significant (p = 0.06). Interpretation: This suggests that participants placed greater trust in the direct information source when updating their beliefs, likely because the causal link was explicitly established.
+
+For visualization of 1 & 2, see Fig. 1.
+
+3. When it comes to raw probs (see Fig. 2), the indirect condition has a higher probs than the direct condition at the initial decision (p = 0.04). Interpretation: This suggests that, in the absence of further information, the implicit causal link provided by the science team for localization narrative could in turn more likely to elicit a causal interpretation of the association sentence than a science team with a much more clear and aligned goal. This is kind of contrast intuition, however, in line with our idea that the localization team could somehow makes the causal link more salient to pps. A reason that I only have a gut feeling but cannot verbalize yet. I think we need to dive deeper into this (see below). 
+
+After analyzing and interpreting these results I have few more thoughts about our old 2x2 design. 
+1. I think the idea about updating is very nice. It reveals more information about participant's belief. 
+2. The direct/indirect manipulation we now have could break down to manipulation in both goals and sources. The source part is straight forward. It relates to the uncertainty of the information source. The goal part could relate to the alignment of speaker. In our current design, due to our question there is a discrepancy in alignment in the indirect condition: the science team's goal is localization, the participant's goal is cultivation. Finally, the difference between localization and cultivation narrative could relate to different degrees of causality (experimenting vs. observing vs. predicting).
+
+In other words, the current indirect condition has changed in more than one aspect than just indirect/direct source across screens. We might want to control these aspects more carefully with more factors, resulting in a more complex design.
+
+Could we perhaps arrange a meeting at your convenience to discuss these results and possible next steps?
+
+
+
+```{r}
+long_data <- data %>%
+  pivot_longer(cols = starts_with("decision"),
+               names_to = "decisionType",
+               values_to = "probs",
+               values_drop_na = TRUE)
+
+p1 <- ggplot(long_data, aes(x = informationSource, y = probs, fill = decisionType)) +
+  geom_boxplot() +
+  labs(title = "Probs. by information source and decision \n type",
+       x = "Information Source",
+       y = "Probs.")
+
+ggsave("fig2.png", p1, width = 6, height = 4, dpi = 300)
+```
+
+
+
+```{r}
+p2 <- ggplot(data, aes(x = informationSource, y = update)) +
+  geom_boxplot(fill = CSP_colors[1]) + 
+  labs(title = "Updated probs by information source",
+       x = "Information Source",
+       y = "Updated probs.")
+
+ggsave("fig1.png", p2, width = 6, height = 4, dpi = 300)
+```
+
+# Statistical Analysis
+**Note: Nothing is significant here.** 
+```{r}
+data_direct <- data$update[data$informationSource == "direct"]
+data_indirect <- data$update[data$informationSource == "indirect"]
+t.test(data_direct, data_indirect, alternative = "greater")
+```
+
+```{r}
+t.test(data_indirect, mu = 0, alternative = "greater")
+t.test(data_direct, mu = 0, alternative = "greater")
+```
+
+```{r}
+lm(probs ~ informationSource * decisionType, data = long_data) %>% summary()
+```
+```{r}
+data_decision1_direct <- data$decision1[data$informationSource == "direct"]
+data_decision1_indirect <- data$decision1[data$informationSource == "indirect"]
+t.test(data_decision1_direct, data_decision1_indirect, alternative = "less")
+```
+
+

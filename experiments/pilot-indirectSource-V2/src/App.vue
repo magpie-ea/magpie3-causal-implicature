@@ -73,43 +73,56 @@
   <Slide v-if="trial">
           <p>
               Two Science Teams are working on different objectives related to Xeliherb. Based on what you've read, what is the key objective of
-              <strong> {{ trial.F1_informationSource === "indirect" ? "the Science Team for Localization" : "the Science Team for Cultivation" }} </strong>?
+              <strong> the Science Team for Cultivation </strong>?
           </p>
 
           <MultipleChoiceInput
-            :response.sync="$magpie.measurements.attentionCheck"
+            :response.sync="$magpie.measurements.attentionCheck_1"
             :randomize="true"
             :options="[
               'Uncover the ecological impact of Xeliherb farming.', 
+              'Find out how to improve the yield of cultivated Xeliherb.',
+              'Determine the ideal soil conditions for Xeliherb growth.',
+            ]" 
+          />
+          <p>
+              And, what is the key objective of
+              <strong> the Science Team for Localization </strong>?
+          </p>
+          <MultipleChoiceInput
+            :response.sync="$magpie.measurements.attentionCheck_2"
+            :randomize="true"
+            :options="[
               'Understand the medical applications of Xeliherb.', 
-              'Investigate where to find more naturally growing Xeliherb.', 
-              'Find out how to improve the yield of cultivated Xeliherb.'
+              'Investigate where to find more naturally growing Xeliherb.',
+              'Map the genetic diversity of wild Xeliherb populations.',
             ]" 
           />
           <button @click="$magpie.nextSlide();">Submit your answer.</button>
         </Slide>
-    <Slide v-if="trial">
-      <div v-if="$magpie.measurements.attentionCheck !== undefined">
-              <p v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]">
-                Nice, correct answer! 
-              </p>
-              <p v-else>
-                Wrong anwser. Please review your objectives again!
-              </p>
+        <Slide v-if="trial">
+  <div>
+    <!-- Display message based on attention check results -->
+    <p v-if="$magpie.measurements.attentionCheck_1 === 'Find out how to improve the yield of cultivated Xeliherb.' && 
+              $magpie.measurements.attentionCheck_2 === 'Investigate where to find more naturally growing Xeliherb.'">
+      Nice, correct answer! 
+    </p>
+    <p v-else>
+      Wrong answer. Please review your objectives again!
+    </p>
 
-              <button 
-                v-if="$magpie.measurements.attentionCheck === correctAnswers[trial.F1_informationSource]" 
-                @click="$magpie.nextScreen()">
-                Next
-              </button>
-              
-              <button 
-                v-else 
-                @click="$magpie.nextScreen('background')">
-                Read again.
-              </button>
-            </div>
-    </Slide>
+    <!-- Display appropriate button based on attention check results -->
+    <button 
+      v-if="$magpie.measurements.attentionCheck_1 === 'Find out how to improve the yield of cultivated Xeliherb.' && 
+             $magpie.measurements.attentionCheck_2 === 'Investigate where to find more naturally growing Xeliherb.'"
+      @click="$magpie.nextScreen()">
+      Next
+    </button>
+    <button v-else @click="$magpie.nextScreen('background')">
+      Read Again
+    </button>
+  </div>
+</Slide>
   </Screen>
   <Screen :key="i" title="Your Preliminary Decision">
          <!-- ************************************ -->

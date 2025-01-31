@@ -19,7 +19,7 @@ jobs:
           # - experiments/pilot-02c/
           # - experiments/pilot-03a/
           # - experiments/pilot-indirectSource/
-          - experiments/pilot-indirectSource-V2/
+          - experiments/pilot-indirectSource-V3/
 
     runs-on: ubuntu-latest
     steps:

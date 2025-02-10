@@ -95,29 +95,6 @@ ggplot(data, aes(x = update)) +
 ## Plot the dependent variable "probs" against conditions.
 
 **Interpretation:**
-
-Hi Michael,
-
-I've conducted a pilot with our new design with 40 pps. The sample size is unbalanced: N(direct) = 23, N(indirect) = 17. The results are as follows:
-
-1. The updated probs are higher than 0 in both conditions (p < 0.001). Interpretation: This indicates that participants used the new association sentence as supporting evidence to strengthen their initial belief that intervening on a cause would result in a greater effect.
-
-2. The updated probs are higher in the direct condition than in the indirect condition. A one slide t-test is marginally significant (p = 0.06). Interpretation: This suggests that participants placed greater trust in the direct information source when updating their beliefs, likely because the causal link was explicitly established.
-
-For visualization of 1 & 2, see Fig. 1.
-
-3. When it comes to raw probs (see Fig. 2), the indirect condition has a higher probs than the direct condition at the initial decision (p = 0.04). Interpretation: This suggests that, in the absence of further information, the implicit causal link provided by the science team for localization narrative could in turn more likely to elicit a causal interpretation of the association sentence than a science team with a much more clear and aligned goal. This is kind of contrast intuition, however, in line with our idea that the localization team could somehow makes the causal link more salient to pps. A reason that I only have a gut feeling but cannot verbalize yet. I think we need to dive deeper into this (see below). 
-
-After analyzing and interpreting these results I have few more thoughts about our old 2x2 design. 
-1. I think the idea about updating is very nice. It reveals more information about participant's belief. 
-2. The direct/indirect manipulation we now have could break down to manipulation in both goals and sources. The source part is straight forward. It relates to the uncertainty of the information source. The goal part could relate to the alignment of speaker. In our current design, due to our question there is a discrepancy in alignment in the indirect condition: the science team's goal is localization, the participant's goal is cultivation. Finally, the difference between localization and cultivation narrative could relate to different degrees of causality (experimenting vs. observing vs. predicting).
-
-In other words, the current indirect condition has changed in more than one aspect than just indirect/direct source across screens. We might want to control these aspects more carefully with more factors, resulting in a more complex design.
-
-Could we perhaps arrange a meeting at your convenience to discuss these results and possible next steps?
-
-
-
 ```{r}
 long_data <- data %>%
   pivot_longer(cols = starts_with("decision"),
@@ -167,5 +144,14 @@ data_decision1_direct <- data$decision1[data$informationSource == "direct"]
 data_decision1_indirect <- data$decision1[data$informationSource == "indirect"]
 t.test(data_decision1_direct, data_decision1_indirect, alternative = "less")
 ```
+# Power analysis
+Compute the effect size of the difference between the two conditions
+```{r}
+library(effsize)
+cohen.d(data_direct, data_indirect)
+```
+```{r}
+library(pwr)
+pwr.t.test(d = 0.8, sig.level = 0.05, power = 0.9, type = "two.sample", alternative = "greater")
 
-
+```

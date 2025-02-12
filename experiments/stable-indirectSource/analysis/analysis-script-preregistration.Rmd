@@ -73,7 +73,6 @@ Factorise variables: id, informationSource
 data$id <- as.factor(1:nrow(data))
 data$informationSource <- as.factor(data$informationSource)
 ```
-
 # Exploratory Data Analysis
 
 ## Histogram of Updated Probabilities

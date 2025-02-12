@@ -1,0 +1,215 @@
+---
+title: "Analysis Script Communication-Cause-Xeliherb "
+author: "Hening Wang"
+date: "2025-02-10"
+output: pdf_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+Supress messages in this document so that the output is cleaner.
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+Import packages.
+```{r}
+rm(list = ls())
+options(warn = -1)
+library(tidyverse)
+library(lme4)
+library(lmerTest)
+library(ggplot2)
+library(aida)
+library(BayesFactor)
+library(pwr)
+library(effsize)
+library(HDInterval)
+```
+
+Set up theme for ggplot.
+
+```{r}
+theme_set(theme_aida())
+
+##################################################
+## CSP-colors
+##################################################
+CSP_colors = c(
+  "#7581B3", "#99C2C2", "#C65353", "#E2BA78", "#5C7457", "#575463",
+  "#B0B7D4", "#66A3A3", "#DB9494", "#D49735", "#9BB096", "#D4D3D9",
+  "#414C76", "#993333"
+  )
+# setting theme colors globally
+scale_colour_discrete <- function(...) {
+  scale_colour_manual(..., values = CSP_colors)
+}
+scale_fill_discrete <- function(...) {
+  scale_fill_manual(..., values = CSP_colors)
+}
+```
+
+# Data Import & Preprocessing
+
+Import data
+
+```{r}
+data <- read.csv("../data/results.csv")
+```
+
+Merge decision1 and decision2 into one row by the same submission id
+```{r}
+data <- data %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+```
+
+Factorise variables: id, informationSource
+
+```{r}
+data$id <- as.factor(1:nrow(data))
+data$informationSource <- as.factor(data$informationSource)
+```
+
+# Exploratory Data Analysis
+
+## Histogram of Updated Probabilities
+
+```{r}
+ggplot(data, aes(x = update)) +
+  geom_histogram(binwidth = 5, fill = CSP_colors[1]) +
+  labs(title = "Distribution of updated probs",
+       x = "Updated probs.",
+       y = "Frequency")
+
+```
+
+## Boxplot of Probabilities by Information Source and Decision Type
+
+```{r}
+long_data <- data %>%
+  pivot_longer(cols = starts_with("decision"),
+               names_to = "decisionType",
+               values_to = "probs",
+               values_drop_na = TRUE)
+
+p1 <- ggplot(long_data, aes(x = informationSource, y = probs, fill = decisionType)) +
+  geom_boxplot() +
+  labs(title = "Probs. by Information Source and Decision \n Type",
+       x = "Information Source",
+       y = "Probs.")
+
+ggsave("fig1.png", p1, width = 6, height = 4, dpi = 300)
+```
+
+
+## Boxplot of Updated Probabilities by Information Source
+```{r}
+p2 <- ggplot(data, aes(x = informationSource, y = update)) +
+  geom_boxplot(fill = CSP_colors[1]) + 
+  labs(title = "Updated probs by Information Source",
+       x = "Information Source",
+       y = "Updated probs.")
+
+ggsave("fig2.png", p2, width = 6, height = 4, dpi = 300)
+```
+
+## Table of updated probabilities by information source: mean, sd, and N.
+```{r}
+data %>%
+  group_by(informationSource) %>%
+  summarise(
+    Mean = mean(update, na.rm = TRUE),
+    SD = sd(update, na.rm = TRUE),
+    N = n()
+  )
+```
+## Table of raw probabilities by information source and decision type: mean, sd, and N.
+```{r}
+long_data %>%
+  group_by(informationSource, decisionType) %>%
+  summarise(
+    Mean = mean(probs, na.rm = TRUE),
+    SD = sd(probs, na.rm = TRUE),
+    N = n()
+  )
+```
+# Bayesian Statistical Analysis
+Normality test.
+```{r}
+shapiro.test(data$update)
+```
+
+Two Sample Bayesian t-test: Direct vs Indirect Information Source
+```{r}
+data_direct <- data$update[data$informationSource == "direct"]
+data_indirect <- data$update[data$informationSource == "indirect"]
+# Bayesian t-test
+bf_test <- ttestBF(x = data_direct, y = data_indirect, alternative = "greater")
+bf_test
+```
+Compute 95 credible interval.
+```{r}
+# Extract posterior samples for Bayesian t-test
+posterior_samples <- posterior(bf_test, iterations = 10000)
+
+# Compute 95% credible interval
+credible_interval <- hdi(posterior_samples, credMass = 0.95)
+credible_interval
+
+```
+
+Plot the posterior distribution.
+```{r}
+plot(bf_test)
+```
+Bayesian One-Sample t-test: Indirect Condition vs. Zero
+
+```{r}
+bf_indirect <- ttestBF(x = data_indirect, mu = 0, alternative = "greater")
+bf_indirect
+```
+Compute 95 credible interval.
+```{r}
+# Extract posterior samples for Bayesian t-test
+posterior_samples_indirect <- posterior(bf_indirect, iterations = 10000)
+
+# Compute 95% credible interval
+credible_interval_indirect <- hdi(posterior_samples_indirect, credMass = 0.95)
+credible_interval_indirect
+```
+
+
+Bayesian One-Sample t-test: Direct Condition vs. Zero
+```{r}
+bf_direct <- ttestBF(x = data_direct, mu = 0, alternative = "greater")
+bf_direct
+```
+```{r}
+# Extract posterior samples for Bayesian t-test
+posterior_samples_direct <- posterior(bf_direct, iterations = 10000)
+
+# Compute 95% credible interval
+credible_interval_direct <- hdi(posterior_samples_direct, credMass = 0.95)
+credible_interval_direct
+```
+Bayesian t-test: Decision1 by Information Source
+```{r}
+data_decision1_direct <- data$decision1[data$informationSource == "direct"]
+data_decision1_indirect <- data$decision1[data$informationSource == "indirect"]
+bf_decision <- ttestBF(data_decision1_direct, data_decision1_indirect, alternative = "two.sided")
+bf_decision
+```
+# Power analysis
+Compute the effect size of the difference between the two conditions.
+```{r}
+
+cohen.d(data_direct, data_indirect)
+```
+Compute the power of the t-test.
+```{r}
+pwr.t.test(d = 0.8, sig.level = 0.05, power = 0.9, type = "two.sample", alternative = "greater")
+```

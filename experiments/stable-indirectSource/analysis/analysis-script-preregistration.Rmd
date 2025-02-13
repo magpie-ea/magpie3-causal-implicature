@@ -212,3 +212,14 @@ Compute the power of the t-test.
 ```{r}
 pwr.t.test(d = 0.8, sig.level = 0.05, power = 0.9, type = "two.sample", alternative = "greater")
 ```
+
+
+Bayesian regression model:
+```{r}
+model <- brms::brm(update ~ informationSource, data = data, sample_prior = "yes", prior = c(brms::prior("normal(0, 100)")))
+brms::hypothesis(model, "informationSourceindirect < 0")
+faintr::compare_groups(model, lower = informationSource == "indirect", higher = informationSource == "direct", include_bf = TRUE)
+# posterior predictive checks
+brms::pp_check(model, ndraws = 50)
+```
+

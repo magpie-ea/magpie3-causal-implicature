@@ -226,7 +226,7 @@ export default {
     return { //items: items,
       // tems: _.shuffle(items).slice(0, 1),
       //select the first element of items
-      items: items.slice(0,1),
+      items: items.slice(1,2),
       // select the second element of items
       // items: items[1],
     selectedTrial: null,

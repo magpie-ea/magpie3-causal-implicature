@@ -88,6 +88,19 @@ data %>% group_by(informationSource) %>% summarise(n = n())
 ```{r}
 ggplot(data, aes(x = update)) +
   geom_histogram(binwidth = 5, fill = CSP_colors[1]) +
+  facet_wrap(informationSource ~ ., scales = "free_y", ncol=1) +
+  labs(title = "Distribution of updated probs",
+       x = "Updated probs.",
+       y = "Frequency")
+
+```
+
+## Density plot of Updated Probabilities
+
+```{r}
+ggplot(data, aes(x = update)) +
+  geom_density(fill = CSP_colors[1]) +
+  facet_wrap(informationSource ~ ., scales = "free_y", ncol=1) +
   labs(title = "Distribution of updated probs",
        x = "Updated probs.",
        y = "Frequency")
@@ -112,11 +125,10 @@ p1 <- ggplot(long_data, aes(x = informationSource, y = probs, fill = decisionTyp
 ggsave("fig1.png", p1, width = 6, height = 4, dpi = 300)
 ```
 
-
 ## Boxplot of Updated Probabilities by Information Source
 ```{r}
-p2 <- ggplot(data, aes(x = informationSource, y = update)) +
-  geom_boxplot(fill = CSP_colors[1]) + 
+p2 <- ggplot(data, aes(x = informationSource, y = update, fill = informationSource)) +
+  geom_boxplot() + 
   labs(title = "Updated probs by Information Source",
        x = "Information Source",
        y = "Updated probs.")
@@ -144,10 +156,18 @@ long_data %>%
     N = n()
   )
 ```
+
+
 # Bayesian Statistical Analysis
+
 Normality test.
 ```{r}
+# all data
 shapiro.test(data$update)
+# only datqa from the 'direct-source' condition
+shapiro.test(data |> filter(informationSource == "direct") |> pull(update))
+# only datqa from the 'indirect-source' condition
+shapiro.test(data |> filter(informationSource == "indirect") |> pull(update))
 ```
 
 Two Sample Bayesian t-test: Direct vs Indirect Information Source

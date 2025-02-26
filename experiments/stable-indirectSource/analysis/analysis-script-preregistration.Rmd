@@ -53,7 +53,7 @@ scale_fill_discrete <- function(...) {
 Import data
 
 ```{r}
-data <- read.csv("../data/results.csv")
+data <- read.csv("../data/batch1/results.csv")
 ```
 
 Merge decision1 and decision2 into one row by the same submission id
@@ -64,7 +64,6 @@ data <- data %>% group_by(submission_id, informationSource) %>%
     decision2 = first(na.omit(decision2))
   ) %>%
   mutate(update = decision2 - decision1)
-
 ```
 
 Factorise variables: id, informationSource
@@ -73,6 +72,15 @@ Factorise variables: id, informationSource
 data$id <- as.factor(1:nrow(data))
 data$informationSource <- as.factor(data$informationSource)
 ```
+
+Show basic information about the dataset.
+```{r}
+data %>% group_by(informationSource) %>% summarise(n = n())
+# batch1: 60 - 60
+# batch2: 20 - 20
+
+```
+
 # Exploratory Data Analysis
 
 ## Histogram of Updated Probabilities

@@ -224,7 +224,11 @@ export default {
     //return { items: _.shuffle(items).slice(0, 1) };
     //return { items: items.slice(0, 1) };
     return { //items: items,
-      items: _.shuffle(items).slice(0, 1),
+      // tems: _.shuffle(items).slice(0, 1),
+      //select the first element of items
+      items: items[0],
+      // select the second element of items
+      // items: items[1],
     selectedTrial: null,
     correctAnswers: {
         indirect:'Investigate where to find more naturally growing Xeliherb.',

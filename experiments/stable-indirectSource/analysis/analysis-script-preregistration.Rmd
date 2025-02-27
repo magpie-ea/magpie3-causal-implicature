@@ -50,7 +50,7 @@ scale_fill_discrete <- function(...) {
 
 # Data Import & Preprocessing
 
-Import data
+## Import data batch1
 
 ```{r}
 data <- read.csv("../data/batch1/results.csv")
@@ -80,6 +80,45 @@ data %>% group_by(informationSource) %>% summarise(n = n())
 # batch2: 20 - 20
 
 ```
+
+## Import data batch2
+```{r}
+data2_indirect <- read.csv("../data/batch2/results_batch2_indirect.csv")
+data2_direct <- read.csv("../data/batch2/results_batch2_direct.csv")
+```
+
+Merge decision1 and decision2 into one row by the same submission id
+```{r}
+data2_indirect <- data2_indirect %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+data2_direct <- data2_direct %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+```
+Factorise variables: id, informationSource
+
+```{r}
+data2_indirect$id <- as.factor(1:nrow(data2_indirect))
+data2_indirect$informationSource <- as.factor(data2_indirect$informationSource)
+
+data2_direct$id <- as.factor(1:nrow(data2_direct))
+data2_direct$informationSource <- as.factor(data2_direct$informationSource)
+```
+
+Combine data from batch1 and batch2
+```{r}
+data <- rbind(data, data2_indirect, data2_direct)
+```
+
 
 # Exploratory Data Analysis
 
@@ -123,6 +162,8 @@ p1 <- ggplot(long_data, aes(x = informationSource, y = probs, fill = decisionTyp
        y = "Probs.")
 
 ggsave("fig1.png", p1, width = 6, height = 4, dpi = 300)
+
+p1
 ```
 
 ## Boxplot of Updated Probabilities by Information Source
@@ -134,6 +175,8 @@ p2 <- ggplot(data, aes(x = informationSource, y = update, fill = informationSour
        y = "Updated probs.")
 
 ggsave("fig2.png", p2, width = 6, height = 4, dpi = 300)
+
+p2
 ```
 
 ## Table of updated probabilities by information source: mean, sd, and N.
@@ -178,6 +221,17 @@ data_indirect <- data$update[data$informationSource == "indirect"]
 bf_test <- ttestBF(x = data_direct, y = data_indirect, alternative = "greater")
 bf_test
 ```
+BF test with more informative prior.
+```{r}
+bf_informative <- ttestBF(x = data_direct, y = data_indirect, alternative = "greater", rscale = 0.707)
+bf_informative
+```
+```{r}
+bf_regression <- lmBF(update ~ informationSource, data = data)
+bf_regression
+```
+
+
 Compute 95 credible interval.
 ```{r}
 # Extract posterior samples for Bayesian t-test

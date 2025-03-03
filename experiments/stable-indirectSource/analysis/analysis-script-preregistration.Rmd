@@ -77,8 +77,8 @@ Show basic information about the dataset.
 ```{r}
 data %>% group_by(informationSource) %>% summarise(n = n())
 # batch1: 60 - 60
-# batch2: 20 - 20
-
+# batch2: 22 - 20
+# batch3: 18 - 20
 ```
 
 ## Import data batch2

@@ -61,7 +61,9 @@ Merge decision1 and decision2 into one row by the same submission id
 data <- data %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 ```
@@ -93,14 +95,18 @@ Merge decision1 and decision2 into one row by the same submission id
 data2_indirect <- data2_indirect %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 
 data2_direct <- data2_direct %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 
@@ -130,14 +136,18 @@ data3_direct <- read.csv("../data/batch3/results_batch3_direct.csv")
 data3_indirect <- data3_indirect %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 
 data3_direct <- data3_direct %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 
@@ -162,14 +172,18 @@ data4_direct <- read.csv("../data/batch4/results_batch4_direct.csv")
 data4_indirect <- data4_indirect %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 
 data4_direct <- data4_direct %>% group_by(submission_id, informationSource) %>% 
   summarize(
     decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2))
+    decision2 = first(na.omit(decision2)),
+    responseTime_decision1 = first(na.omit(responseTime)),
+    responseTime_decision2 = nth(na.omit(responseTime),2)
   ) %>%
   mutate(update = decision2 - decision1)
 
@@ -372,5 +386,13 @@ brms::hypothesis(model, "informationSourceindirect < 0")
 faintr::compare_groups(model, lower = informationSource == "indirect", higher = informationSource == "direct", include_bf = TRUE)
 # posterior predictive checks
 brms::pp_check(model, ndraws = 50)
+```
+Bayesian regression model with reading time
+```{r}
+model_response_time <- brms::brm(update ~ informationSource * responseTime_decision2, data = data, sample_prior = "yes", prior = c(brms::prior("normal(0, 100)")))
+```
+```{r}
+summary(model)
+summary(model_response_time)
 ```
 

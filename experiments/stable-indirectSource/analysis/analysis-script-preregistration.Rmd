@@ -78,7 +78,8 @@ Show basic information about the dataset.
 data %>% group_by(informationSource) %>% summarise(n = n())
 # batch1: 60 - 60
 # batch2: 22 - 20
-# batch3: 18 - 20
+# batch3: 8 - 10
+# batch4: 12 - 10
 ```
 
 ## Import data batch2
@@ -119,6 +120,69 @@ Combine data from batch1 and batch2
 data <- rbind(data, data2_indirect, data2_direct)
 ```
 
+## Import data batch 3
+```{r}
+# Read data
+data3_indirect <- read.csv("../data/batch3/results_batch3_indirect.csv")
+data3_direct <- read.csv("../data/batch3/results_batch3_direct.csv")
+
+# Merge rows
+data3_indirect <- data3_indirect %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+data3_direct <- data3_direct %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+# Factorise
+data3_indirect$id <- as.factor(1:nrow(data3_indirect))
+data3_indirect$informationSource <- as.factor(data3_indirect$informationSource)
+
+data3_direct$id <- as.factor(1:nrow(data3_direct))
+data3_direct$informationSource <- as.factor(data3_direct$informationSource)
+
+# Combine together
+data <- rbind(data, data3_indirect, data3_direct)
+```
+
+## Import data batch 4
+```{r}
+# Read data
+data4_indirect <- read.csv("../data/batch4/results_batch4_indirect.csv")
+data4_direct <- read.csv("../data/batch4/results_batch4_direct.csv")
+
+# Merge rows
+data4_indirect <- data4_indirect %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+data4_direct <- data4_direct %>% group_by(submission_id, informationSource) %>% 
+  summarize(
+    decision1 = first(na.omit(decision1)),
+    decision2 = first(na.omit(decision2))
+  ) %>%
+  mutate(update = decision2 - decision1)
+
+# Factorise
+data4_indirect$id <- as.factor(1:nrow(data4_indirect))
+data4_indirect$informationSource <- as.factor(data4_indirect$informationSource)
+
+data4_direct$id <- as.factor(1:nrow(data4_direct))
+data4_direct$informationSource <- as.factor(data4_direct$informationSource)
+
+# Combine together
+data <- rbind(data, data4_indirect, data4_direct)
+```
 
 # Exploratory Data Analysis
 
@@ -223,8 +287,13 @@ bf_test
 ```
 BF test with more informative prior.
 ```{r}
-bf_informative <- ttestBF(x = data_direct, y = data_indirect, alternative = "greater", rscale = 0.707)
+bf_informative <- ttestBF(x = data_direct, y = data_indirect, alternative = "greater", rscale = 0.1)
 bf_informative
+
+t.test(data_direct, data_indirect, alternative = "greater")
+
+result <- ttest.tstat(t = 1.0748, n1 = 198)
+exp(result[['bf']])
 ```
 ```{r}
 bf_regression <- lmBF(update ~ informationSource, data = data)

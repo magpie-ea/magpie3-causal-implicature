@@ -226,8 +226,8 @@ export default {
     return { //items: items,
       // tems: _.shuffle(items).slice(0, 1),
       //select the first element of items
-      //items: items.slice(1,2), // this is indirect
-      items: items.slice(0,1), // this is direct
+      items: items.slice(1,2), // this is indirect
+      //items: items.slice(0,1), // this is direct
       // select the second element of items
       // items: items[1],
     selectedTrial: null,

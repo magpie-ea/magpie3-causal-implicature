@@ -364,9 +364,26 @@ Bayesian t-test: Decision1 by Information Source
 ```{r}
 data_decision1_direct <- data$decision1[data$informationSource == "direct"]
 data_decision1_indirect <- data$decision1[data$informationSource == "indirect"]
-bf_decision <- ttestBF(data_decision1_direct, data_decision1_indirect, alternative = "two.sided")
-bf_decision
+bf_decision1_two_sample <- ttestBF(data_decision1_direct, data_decision1_indirect, alternative = "two.sided")
+bf_decision1_two_sample
+bf_decision1_one_sample <- ttestBF(data$decision1, mu = 50, alternative = "less")
+bf_decision1_one_sample
 ```
+Compare probs of decision 1 to 50
+```{r}
+bf_decision1_direct <- ttestBF(data_decision1_direct, mu = 50, alternative = "less")
+bf_decision1_direct
+bf_decision1_indirect <- ttestBF(data_decision1_indirect, mu = 50, alternative = "less")
+bf_decision1_indirect
+```
+```{r}
+data_decision2_direct <- data$decision2[data$informationSource == "direct"]
+data_decision2_indirect <- data$decision2[data$informationSource == "indirect"]
+bf_decision2 <- ttestBF(data_decision2_direct, data_decision2_indirect, alternative = "greater")
+bf_decision2
+```
+
+
 # Power analysis
 Compute the effect size of the difference between the two conditions.
 ```{r}

@@ -141,6 +141,7 @@
               itemNr: trial.itemNr,
               itemName: trial.itemName,
               informationSource: trial.F1_informationSource,
+              scienceTeam: trial.F2_scienceTeam,
               decision1: $magpie.measurements.decision1,
               decision2: $magpie.measurements.decision2
             }"
@@ -152,8 +153,20 @@
            <!-- ************************************ -->
     <Slide v-if="trial.F1_informationSource === 'indirect'">
     <p>
-    Coincidentally, you found an old journal from a <strong>Science Teams for Localization</strong> from the early days.
-    Some scientists interested in localizing Xeliherb took the following note for themselves: <br>
+    Coincidentally, you found an old journal from a <strong> {{ trial.F2_scienceTeam === "Localization" ? "Science Team for Localization" : "Science Team for Cultivation" }} </strong> from the early days.
+    Some scientists interested in {{ trial.F2_scienceTeam === "Localization" ? "localizing" : "cultivating" }} Xeliherb took the following note for themselves: <br>
+    <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
+    </p>
+    <!-- Add the image -->
+    <img src="../pictures/infoindirect.png" alt="infoindirect image" />
+    <button @click="$magpie.nextScreen();">Next</button>
+  </Slide>
+         <!-- ************************************ -->
+    <!-- ************************************ -->
+    <Slide v-if="trial.F1_informationSource === 'indirect' && trial.F2_scienceTeam === 'Cultivation'">
+    <p>
+    Coincidentally, you found an old journal from a <strong>Science Teams for Cultivation</strong> from the early days.
+    Some scientists interested in cultivating Xeliherb took the following note for themselves: <br>
     <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
     </p>
     <!-- Add the image -->
@@ -164,7 +177,16 @@
                <!-- ************************************ -->
     <Slide v-if="trial.F1_informationSource === 'direct'">
     <p>
-    You received a recent report from a <strong>Science Teams for Cultivation</strong> who made a very interesting discovery.
+    You received a recent report from a <strong>{{ trial.F2_scienceTeam === "Localization" ? "Science Team for Localization" : "Science Team for Cultivation" }}</strong> who made a very interesting discovery.
+    The report states: <br>
+    <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
+    </p>
+    <img src="../pictures/infodirect.png" alt="infodirect image" />
+    <button @click="$magpie.nextScreen();">Next</button>
+  </Slide>
+  <Slide v-if="trial.F1_informationSource === 'direct' && trial.F2_scienceTeam === 'Localization'">
+    <p>
+    You received a recent report from a <strong>Science Teams for Localization</strong> who made a very interesting discovery.
     The report states: <br>
     <strong> A high volume of Xeliherb is associated with the presence of Ralocrop. </strong>
     </p>
@@ -176,8 +198,8 @@
   <Screen :key="i" title="Your Final Decision">
          <!-- ************************************ -->
          <Slide>
-          Now that you have additional information from the
-          <strong> {{ trial.F1_informationSource === "indirect" ? "journal entry from the Science Team for Localization" : "report from the Science Team for Cultivation" }} </strong> which stated that:
+          Now that you have additional information {{ trial.F1_informationSource === "indirect" ? "indirectly" : "directly" }} from the
+          <strong> {{ trial.F1_informationSource === "indirect" ? "journal entry" : "report" }} from {{ trial.F2_scienceTeam === "Localization" ? "the Science Team for Localization" : "the Science Team for Cultivation" }}</strong> which stated that:
             <br><br>
             <strong>"A high volume of Xeliherb is associated with the presence of Ralocrop."</strong>
             <br><br>
@@ -195,6 +217,7 @@
               itemNr: trial.itemNr,
               itemName: trial.itemName,
               informationSource: trial.F1_informationSource,
+              scienceTeam: trial.F2_scienceTeam,
               decision1: $magpie.measurements.decision1,
               decision2: $magpie.measurements.decision2
             }"
@@ -224,7 +247,8 @@ export default {
     //return { items: _.shuffle(items).slice(0, 1) };
     //return { items: items.slice(0, 1) };
     return { //items: items,
-      // tems: _.shuffle(items).slice(0, 1),
+      // this is random
+      //items: _.shuffle(items).slice(0, 1),
       //select the first element of items
       items: items.slice(1,2), // this is indirect
       //items: items.slice(0,1), // this is direct

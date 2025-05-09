@@ -215,12 +215,15 @@ ggplot(data, aes(x = update)) +
 ## Density plot of Updated Probabilities
 
 ```{r}
-ggplot(data, aes(x = update)) +
-  geom_density(fill = CSP_colors[1]) +
-  facet_wrap(informationSource ~ ., scales = "free_y", ncol=1) +
-  labs(title = "Distribution of updated probs",
-       x = "Updated probs.",
-       y = "Frequency")
+ggplot(data, aes(x = update, fill = informationSource)) +
+  geom_density() +
+  scale_fill_manual(values = CSP_colors[1:2]) +
+  facet_wrap(informationSource ~ ., scales = "free_y", ncol = 1) +
+  labs(
+    x = "Change in Causal Confidence",
+    y = "",
+    fill = NULL
+  ) + theme(legend.title = element_blank())
 
 ```
 

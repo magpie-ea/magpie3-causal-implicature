@@ -198,7 +198,7 @@
   <Screen :key="i" title="Your Final Decision">
          <!-- ************************************ -->
          <Slide>
-          Now that you have additional information {{ trial.F1_informationSource === "indirect" ? "indirectly" : "directly" }} from the
+          Now that you have additional information from the
           <strong> {{ trial.F1_informationSource === "indirect" ? "journal entry" : "report" }} from {{ trial.F2_scienceTeam === "Localization" ? "the Science Team for Localization" : "the Science Team for Cultivation" }}</strong> which stated that:
             <br><br>
             <strong>"A high volume of Xeliherb is associated with the presence of Ralocrop."</strong>
@@ -250,8 +250,8 @@ export default {
       // this is random
       //items: _.shuffle(items).slice(0, 1),
       //select the first element of items
-      //items: items.slice(1,2), // this is indirect
-      items: items.slice(0,1), // this is direct
+      items: items.slice(1,2), // this is indirect
+      //items: items.slice(0,1), // this is direct
       // select the second element of items
       // items: items[1],
     selectedTrial: null,

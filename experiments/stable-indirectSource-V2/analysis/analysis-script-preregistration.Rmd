@@ -53,7 +53,10 @@ scale_fill_discrete <- function(...) {
 ## Import data batch1
 
 ```{r}
-data <- read.csv("../data/batch1/results.csv")
+data_indirect <- read.csv("../data/batch1/results_indirect.csv")
+data_direct <- read.csv("../data/batch1/results_direct.csv")
+
+data <- rbind(data_indirect, data_direct)
 ```
 
 Merge decision1 and decision2 into one row by the same submission id
@@ -82,120 +85,6 @@ data %>% group_by(informationSource) %>% summarise(n = n())
 # batch2: 22 - 20
 # batch3: 8 - 10
 # batch4: 12 - 10
-```
-
-## Import data batch2
-```{r}
-data2_indirect <- read.csv("../data/batch2/results_batch2_indirect.csv")
-data2_direct <- read.csv("../data/batch2/results_batch2_direct.csv")
-```
-
-Merge decision1 and decision2 into one row by the same submission id
-```{r}
-data2_indirect <- data2_indirect %>% group_by(submission_id, informationSource) %>% 
-  summarize(
-    decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2)),
-    responseTime_decision1 = first(na.omit(responseTime)),
-    responseTime_decision2 = nth(na.omit(responseTime),2)
-  ) %>%
-  mutate(update = decision2 - decision1)
-
-data2_direct <- data2_direct %>% group_by(submission_id, informationSource) %>% 
-  summarize(
-    decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2)),
-    responseTime_decision1 = first(na.omit(responseTime)),
-    responseTime_decision2 = nth(na.omit(responseTime),2)
-  ) %>%
-  mutate(update = decision2 - decision1)
-
-```
-Factorise variables: id, informationSource
-
-```{r}
-data2_indirect$id <- as.factor(1:nrow(data2_indirect))
-data2_indirect$informationSource <- as.factor(data2_indirect$informationSource)
-
-data2_direct$id <- as.factor(1:nrow(data2_direct))
-data2_direct$informationSource <- as.factor(data2_direct$informationSource)
-```
-
-Combine data from batch1 and batch2
-```{r}
-data <- rbind(data, data2_indirect, data2_direct)
-```
-
-## Import data batch 3
-```{r}
-# Read data
-data3_indirect <- read.csv("../data/batch3/results_batch3_indirect.csv")
-data3_direct <- read.csv("../data/batch3/results_batch3_direct.csv")
-
-# Merge rows
-data3_indirect <- data3_indirect %>% group_by(submission_id, informationSource) %>% 
-  summarize(
-    decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2)),
-    responseTime_decision1 = first(na.omit(responseTime)),
-    responseTime_decision2 = nth(na.omit(responseTime),2)
-  ) %>%
-  mutate(update = decision2 - decision1)
-
-data3_direct <- data3_direct %>% group_by(submission_id, informationSource) %>% 
-  summarize(
-    decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2)),
-    responseTime_decision1 = first(na.omit(responseTime)),
-    responseTime_decision2 = nth(na.omit(responseTime),2)
-  ) %>%
-  mutate(update = decision2 - decision1)
-
-# Factorise
-data3_indirect$id <- as.factor(1:nrow(data3_indirect))
-data3_indirect$informationSource <- as.factor(data3_indirect$informationSource)
-
-data3_direct$id <- as.factor(1:nrow(data3_direct))
-data3_direct$informationSource <- as.factor(data3_direct$informationSource)
-
-# Combine together
-data <- rbind(data, data3_indirect, data3_direct)
-```
-
-## Import data batch 4
-```{r}
-# Read data
-data4_indirect <- read.csv("../data/batch4/results_batch4_indirect.csv")
-data4_direct <- read.csv("../data/batch4/results_batch4_direct.csv")
-
-# Merge rows
-data4_indirect <- data4_indirect %>% group_by(submission_id, informationSource) %>% 
-  summarize(
-    decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2)),
-    responseTime_decision1 = first(na.omit(responseTime)),
-    responseTime_decision2 = nth(na.omit(responseTime),2)
-  ) %>%
-  mutate(update = decision2 - decision1)
-
-data4_direct <- data4_direct %>% group_by(submission_id, informationSource) %>% 
-  summarize(
-    decision1 = first(na.omit(decision1)),
-    decision2 = first(na.omit(decision2)),
-    responseTime_decision1 = first(na.omit(responseTime)),
-    responseTime_decision2 = nth(na.omit(responseTime),2)
-  ) %>%
-  mutate(update = decision2 - decision1)
-
-# Factorise
-data4_indirect$id <- as.factor(1:nrow(data4_indirect))
-data4_indirect$informationSource <- as.factor(data4_indirect$informationSource)
-
-data4_direct$id <- as.factor(1:nrow(data4_direct))
-data4_direct$informationSource <- as.factor(data4_direct$informationSource)
-
-# Combine together
-data <- rbind(data, data4_indirect, data4_direct)
 ```
 
 # Exploratory Data Analysis
@@ -285,9 +174,9 @@ Normality test.
 ```{r}
 # all data
 shapiro.test(data$update)
-# only datqa from the 'direct-source' condition
+# only data from the 'direct-source' condition
 shapiro.test(data |> filter(informationSource == "direct") |> pull(update))
-# only datqa from the 'indirect-source' condition
+# only data from the 'indirect-source' condition
 shapiro.test(data |> filter(informationSource == "indirect") |> pull(update))
 ```
 

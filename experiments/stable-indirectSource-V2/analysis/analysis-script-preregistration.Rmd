@@ -57,6 +57,7 @@ data_indirect <- read.csv("../data/batch1/results_indirect.csv")
 data_direct <- read.csv("../data/batch1/results_direct.csv")
 
 data <- rbind(data_indirect, data_direct)
+
 ```
 
 Merge decision1 and decision2 into one row by the same submission id
@@ -81,10 +82,12 @@ data$informationSource <- as.factor(data$informationSource)
 Show basic information about the dataset.
 ```{r}
 data %>% group_by(informationSource) %>% summarise(n = n())
-# batch1: 60 - 60
-# batch2: 22 - 20
-# batch3: 8 - 10
-# batch4: 12 - 10
+data_indirect_localization <- read.csv("../../../data+analysis/05-stable-speakerRelevance/data_indirect_Localization.csv")
+data_indirect_localization$id <- as.factor(data_indirect_localization$id)
+data_indirect_localization %>% mutate(scienceTeam = ifelse(informationSource == "indirect", "Localization", "Cultivation")) -> data_indirect_localization
+data %>% mutate(scienceTeam = ifelse(informationSource == "indirect", "Cultivation", "Localization")) -> data
+data_combined <- rbind(data, data_indirect_localization)
+write.csv(data_combined, file = "../../../data+analysis/05-stable-speakerRelevance/data_full.csv", row.names = FALSE)
 ```
 
 # Exploratory Data Analysis

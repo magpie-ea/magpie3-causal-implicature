@@ -198,6 +198,11 @@ data4_direct$informationSource <- as.factor(data4_direct$informationSource)
 data <- rbind(data, data4_indirect, data4_direct)
 ```
 
+Export the final data set as a whole for next step analysis.
+```{r}
+write.csv(data, "../../../data+analysis/05-stable-speakerRelevance/data_indirect_Localization.csv", row.names = FALSE)
+```
+
 # Exploratory Data Analysis
 
 ## Histogram of Updated Probabilities

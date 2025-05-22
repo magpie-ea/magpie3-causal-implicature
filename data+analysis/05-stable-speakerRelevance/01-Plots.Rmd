@@ -195,6 +195,9 @@ summary(model_full)
 
 model_full_decision1 <- lm(decision1 ~ informationSource * scienceTeam, data = data)
 summary(model_full_decision1)
+
+model_full_update <- lm(update ~ informationSource * scienceTeam, data = data)
+summary(model_full_update)
 ```
 ```{r}
 model_reduced <- lm(decision2 ~ informationSource + scienceTeam, data = data)

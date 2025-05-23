@@ -47,10 +47,16 @@ data_indirectLocalization_combined %>% mutate(scienceTeam = ifelse(informationSo
 
 # Data Import of Batch 1 of indirectCultivation
 ```{r}
-data_indirectCultivation_direct <- read.csv("../../experiments/stable-indirectSource-V2/data/batch1/results_direct.csv")
-data_indirectCultivation_indirect <- read.csv("../../experiments/stable-indirectSource-V2/data/batch1/results_indirect.csv")
+data_indirectCultivation_batch1_direct <- read.csv("../../experiments/stable-indirectSource-V2/data/batch1/results_direct.csv")
+data_indirectCultivation_batch1_indirect <- read.csv("../../experiments/stable-indirectSource-V2/data/batch1/results_indirect.csv")
 
-data_indirectCultivation_combined <- rbind(data_indirectCultivation_direct, data_indirectCultivation_indirect)
+data_indirectCultivation_batch2_direct <- read.csv("../../experiments/stable-indirectSource-V2/data/batch2/results_direct.csv")
+data_indirectCultivation_batch2_indirect <- read.csv("../../experiments/stable-indirectSource-V2/data/batch2/results_indirect.csv")
+
+data_indirectCultivation_combined <- rbind(data_indirectCultivation_batch1_direct, 
+                                           data_indirectCultivation_batch1_indirect,
+                                           data_indirectCultivation_batch2_direct,
+                                           data_indirectCultivation_batch2_indirect)
 
 data_indirectCultivation_combined %>% mutate(scienceTeam = ifelse(informationSource == "indirect", "Cultivation", "Localization")) -> data_indirectCultivation_combined
 

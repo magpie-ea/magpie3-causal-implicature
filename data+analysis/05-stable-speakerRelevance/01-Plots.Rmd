@@ -111,8 +111,8 @@ data %>%
 ```
 Mean and CIs for decision2 only 
 ```{r}
-data %>% ggplot(aes(x = scienceTeam, y = decision2, fill = informationSource)) +
-  stat_summary(fun.data = mean_cl_boot, geom = "bar", position = position_dodge(), width = 0.5) +
+data %>% ggplot(aes(x = scienceTeam, y = decision2, color = informationSource)) +
+  stat_summary(fun.data = mean_cl_boot, geom = "point", position = position_dodge(0.5), width = 0.5) +
   stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, position = position_dodge(0.5)) +
   labs(x = "Science Team",
        y = "Causal Belief Updated",
@@ -124,6 +124,17 @@ ggsave("decision2_mean_CI.png", plot = p, width = 8, height = 6, dpi = 300)
 ```
 Update
 ```{r}
+data %>% mutate(scienceTeam_relabel = as.factor(ifelse(scienceTeam == "Localization", "-Alignment", "+Alignment"))
+                )%>% ggplot(aes(x = scienceTeam_relabel, y = update, fill = informationSource)) +
+  stat_summary(fun.data = mean_cl_boot, geom = "bar", position = position_dodge(0.5), width = 0.5) +
+  stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, position = position_dodge(0.5)) +
+  labs(x = "Speaker Relevance",
+       y = "Causal Confidence in Change",
+       # legend title
+       fill = "Speaker Addressing"
+       ) -> q
+q
+
 data %>% ggplot(aes(x = informationSource, y = update, color = scienceTeam)) +
   stat_summary(fun.data = mean_cl_boot, geom = "point", position = position_dodge(0.5), width = 0.5) +
   stat_summary(fun.data = mean_cl_boot, geom = "errorbar", width = 0.2, position = position_dodge(0.5)) +
@@ -131,8 +142,7 @@ data %>% ggplot(aes(x = informationSource, y = update, color = scienceTeam)) +
        y = "Update of Causal Belief",
        # legend title
        fill = "Information Source"
-       ) -> q
-q
+       )
 ```
 
 # Inferential Statistics of Decision2
@@ -143,31 +153,8 @@ shapiro.test(data$decision2)
 # log transformation
 print("Log transformation")
 shapiro.test(log(data$decision2))
-# exp transformation
-print("Exp transformation")
-shapiro.test(exp(data$decision2))
-# reflect and log 
-print("Reflect and log transformation")
-decision2_reflected <- max(data$decision2) + 1 - data$decision2
-decision2_reflect_transformed <- log(decision2_reflected)
-shapiro.test(decision2_reflect_transformed)
-# cube transformation
-print("Cube transformation")
-decision2_cubed <- data$decision2^3
-shapiro.test(decision2_cubed)
 
 shapiro.test(data$update)
-```
-Use package to do the transformation.
-```{r}
-library(MASS)
- b <- boxcox(lm(data$decision2 ~ 1))
- lambda <- b$x[which.max(b$y)]
- lambda
- data$decision2_boxcox <- (data$decision2^lambda - 1) / lambda
- print("Box-Cox transformation")
- shapiro.test(data$decision2_boxcox)
- shapiro.test(data$decision2 ^ 4)
 ```
 
 Contrast Coding between indirect and direct
@@ -200,15 +187,15 @@ model_full_update <- lm(update ~ informationSource * scienceTeam, data = data)
 summary(model_full_update)
 ```
 ```{r}
-model_reduced <- lm(decision2 ~ informationSource + scienceTeam, data = data)
-anova(model_full, model_reduced)
+model_reduced <- lm(update ~ informationSource + scienceTeam, data = data)
+anova(model_full_update, model_reduced)
 ```
 ```{r}
-plot(model_full)
+plot(model_full_update)
 library(sjPlot)
 
 # Plot interaction with scienceTeam on the x-axis
-plot_model(model_full, type = "int", terms = c("scienceTeam", "informationSource"))
+plot_model(model_full_update, type = "int", terms = c("scienceTeam", "informationSource"))
 ```
 
 
@@ -219,7 +206,7 @@ plot_model(model_full, type = "int", terms = c("scienceTeam", "informationSource
 ```{r}
 library(brms)
 model_full_bayesian <- brm(
-  log(decision2) ~ informationSource * scienceTeam,
+  update ~ informationSource * scienceTeam,
   data = data,
   family = gaussian(),
   sample_prior = "yes",
@@ -252,22 +239,31 @@ faintr::compare_groups(model_full_bayesian, lower = informationSource == "indire
                        higher = informationSource == "direct" & scienceTeam == "Localization", 
                        include_bf = TRUE)
 
+faintr::compare_groups(model_full_bayesian, lower = informationSource == "indirect" & scienceTeam == "Cultivation", 
+                       higher = informationSource == "direct" & scienceTeam == "Cultivation", 
+                       include_bf = TRUE)
+
+faintr::compare_groups(model_full_bayesian, lower = informationSource == "indirect" & scienceTeam == "Cultivation", 
+                       higher = informationSource == "indirect" & scienceTeam == "Localization", 
+                       include_bf = TRUE)
+
+faintr::compare_groups(model_full_bayesian, lower = informationSource == "direct" & scienceTeam == "Cultivation", 
+                       higher = informationSource == "direct" & scienceTeam == "Localization", 
+                       include_bf = TRUE)
+
+faintr::compare_groups(model_full_bayesian, lower = informationSource == "indirect" & scienceTeam == "Cultivation", 
+                       higher = informationSource == "direct" & scienceTeam == "Localization", 
+                       include_bf = TRUE)
+
+
+
 ```
-# Make sure no effects at decision1
+
+Compare indirect Localization and direct Cultivation (the first two conditions collect in the first experiment) 
 ```{r}
-model_full_bayesian_decision1 <- brm(
-  log(decision1) ~ informationSource * scienceTeam,
-  data = data,
-  family = gaussian(),
-  sample_prior = "yes",
-  prior = c(prior("normal(0, 10)"))
-)
+faintr::compare_groups(model_full_bayesian, higher = informationSource == "direct" & scienceTeam == "Cultivation", 
+                       lower = informationSource == "indirect" & scienceTeam == "Localization", 
+                       include_bf = TRUE)
 ```
-```{r}
-summary(model_full_bayesian_decision1)
-pp_check(model_full_bayesian_decision1)   # posterior predictive check
-```
-```{r}
-pairs(emmeans(model_full_bayesian_decision1, ~ informationSource | scienceTeam))
-```
+
 
